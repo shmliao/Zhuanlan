@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="AppName">知乎专栏</string>
+  
+  <string name="load_more_text">正在加载...</string>
+  
+  <string name="VersionUrl">http://zhouqiaoqiao.com/cnodejs.android.json</string>
+</resources>
