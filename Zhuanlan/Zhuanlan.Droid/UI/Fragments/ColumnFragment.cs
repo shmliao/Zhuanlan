@@ -17,18 +17,21 @@ using Zhuanlan.Droid.UI.Adapters;
 using Zhuanlan.Droid.UI.Listeners;
 using Zhuanlan.Droid.Utils;
 using Zhuanlan.Droid.Model;
-using Zhuanlan.Droid.UI.Widgets;
 
 namespace Zhuanlan.Droid.UI.Fragments
 {
-    public class ColumnFragment : Fragment, IOnLoadMoreListener
+    public class ColumnFragment : Fragment, IOnLoadMoreListener, SwipeRefreshLayout.IOnRefreshListener
     {
-        private BaseRecyclerView baseRecyclerView;
+        private Handler handler;
+        private SwipeRefreshLayout swipeRefreshLayout;
+        private RecyclerView recyclerView;
         private ColumnAdapter adapter;
+        private View notLoadingView;
         private int mCount = 1;
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            handler = new Handler();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,20 +43,16 @@ namespace Zhuanlan.Droid.UI.Fragments
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            baseRecyclerView = view.FindViewById<BaseRecyclerView>(Resource.Id.baseRecyclerView);
-            baseRecyclerView.OnLoadMoreListener = this;
-            adapter= new ColumnAdapter(this.Activity);
-            baseRecyclerView.SetAdapter(adapter);
+            swipeRefreshLayout = view.FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
+            swipeRefreshLayout.SetOnRefreshListener(this);
+            recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            recyclerView.SetLayoutManager(new LinearLayoutManager(this.Activity));
+            adapter = new ColumnAdapter();
+            adapter.OnLoadMoreListener = this;
             
-            GetData();
+            recyclerView.SetAdapter(adapter);
+
         }
-        private void GetData()
-        {
-            adapter.TopicList = SetList();
-            adapter.NotifyDataSetChanged();
-            baseRecyclerView.LoadMoreListenerCompleted();
-        }
-        
         private List<InitColumnModel> SetList()
         {
             List<InitColumnModel> dataList = new List<InitColumnModel>();
@@ -64,21 +63,44 @@ namespace Zhuanlan.Droid.UI.Fragments
             }
             return dataList;
         }
-        public void OnRefresh()
+
+        public void OnLoadMoreRequested()
         {
-            setRefresh();
-            GetData();
+            recyclerView.Post(() =>
+            {
+                if (mCount >= 2)
+                {
+                    handler.PostDelayed(() =>
+                    {
+                        adapter.LoadComplete();
+                        if (notLoadingView == null)
+                        {
+                            notLoadingView = GetLayoutInflater(null).Inflate(Resource.Layout.recyclerview_notloading, (ViewGroup)recyclerView.Parent, false);
+                        }
+                        adapter.AddFooterView(notLoadingView);
+                    }, 1000);
+                }
+                else
+                {
+                    handler.PostDelayed(() =>
+                    {
+                        adapter.ShowLoadMoreFailedView();
+                        //mCount++;
+                        //adapter.AddData(SetList());
+                    }, 1000);
+                }
+            });
         }
 
-        public void OnLoadMore()
+        public void OnRefresh()
         {
-            //mCount = mCount + 1;
-            //GetData();
-        }
-        private void setRefresh()
-        {
-            adapter.TopicList.Clear();
-            mCount = 1;
+            handler.PostDelayed(() =>
+            {
+                mCount = 1;
+                adapter.NewData(SetList());
+                adapter.RemoveAllFooterView();
+                swipeRefreshLayout.Refreshing = false;
+            }, 1000);
         }
     }
 }

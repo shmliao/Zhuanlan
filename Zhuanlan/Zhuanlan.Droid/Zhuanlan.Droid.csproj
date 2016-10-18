@@ -16,7 +16,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -128,8 +128,6 @@
     <Compile Include="UI\Listeners\IOnLoadMoreListener.cs" />
     <Compile Include="UI\Views\IMainView.cs" />
     <Compile Include="UI\Views\ISplashView.cs" />
-    <Compile Include="UI\Widgets\BaseRecyclerView.cs" />
-    <Compile Include="UI\Widgets\BaseRecyclerViewOnScroll.cs" />
     <Compile Include="Utils\ApiUtils.cs" />
     <Compile Include="Utils\OkHttpUtils.cs" />
     <Compile Include="Utils\SQLiteUtils.cs" />
@@ -145,19 +143,19 @@
     <AndroidResource Include="Resources\layout\FragmentColumn.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\base_recyclerview_footer.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\column_item.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\base_recylerview_layout.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\base_recyclerview_empty.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_home.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\recyclerview_notloading.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\recyclerview_loadmore_failed.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\recyclerview_loadmore.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -207,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="UI\Widgets\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,8 +14,6 @@ namespace Zhuanlan.Droid.UI.Listeners
 {
     public interface IOnLoadMoreListener
     {
-        void OnRefresh();
-
-        void OnLoadMore();
+        void OnLoadMoreRequested();        
     }
 }
