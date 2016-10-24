@@ -9,13 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Zhuanlan.Droid.Model;
+using Realms;
 
-namespace Zhuanlan.Droid.UI.Views
+namespace Zhuanlan.Droid.Model
 {
-    public interface IColumnsView
+    public class MetaModel : RealmObject
     {
-        void GetColumnsFail(string msg);
-        void GetColumnsSuccess(List<ColumnModel> lists);
+        public PostModel Previous { get; set; }
+        public PostModel Next { get; set; }
     }
 }

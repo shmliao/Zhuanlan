@@ -13,7 +13,7 @@ using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class CreatorModel : RealmObject
+    public class AuthorModel : RealmObject
     {
         /// <summary>
         /// 个人资料网址

@@ -13,8 +13,14 @@ using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
+    /// <summary>
+    /// 专栏话题信息
+    /// </summary>
     public class TopicModel : RealmObject
     {
+        /// <summary>
+        /// 话题在知乎官网中的地址
+        /// </summary>
         public string Url { get; set; }
         public string ID { get; set; }
         public string Name { get; set; }

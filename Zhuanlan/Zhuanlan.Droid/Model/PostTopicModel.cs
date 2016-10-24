@@ -13,8 +13,14 @@ using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-   public class PostTopicModel : RealmObject
+    /// <summary>
+    /// 文章话题信息
+    /// </summary>
+    public class PostTopicModel : RealmObject
     {
+        /// <summary>
+        /// 该话题下文章数
+        /// </summary>
         public int PostsCount { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }

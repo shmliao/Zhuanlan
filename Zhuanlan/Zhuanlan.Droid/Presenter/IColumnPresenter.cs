@@ -16,6 +16,7 @@ namespace Zhuanlan.Droid.Presenter
 {
     public interface IColumnPresenter
     {
-        Task GetColumn(string slug);
+        Task GetColumn(string slug,bool iscolumn);
+        Task GetPosts(string slug, int offset);
     }
 }

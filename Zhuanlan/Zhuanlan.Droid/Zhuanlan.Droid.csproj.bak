@@ -16,7 +16,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -115,11 +115,8 @@
   <ItemGroup>
     <Compile Include="Model\AvatarModel.cs" />
     <Compile Include="Model\ColumnModel.cs" />
-    <Compile Include="Model\AuthorModel.cs" />
+    <Compile Include="Model\CreatorModel.cs" />
     <Compile Include="Model\InitColumnModel.cs" />
-    <Compile Include="Model\LinkModel.cs" />
-    <Compile Include="Model\MetaModel.cs" />
-    <Compile Include="Model\PostModel.cs" />
     <Compile Include="Model\PostTopicModel.cs" />
     <Compile Include="Model\TopicModel.cs" />
     <Compile Include="Presenter\ColumnPresenter.cs" />
@@ -134,9 +131,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Activitys\ColumnActivity.cs" />
     <Compile Include="UI\Activitys\MainActivity.cs" />
-    <Compile Include="UI\Activitys\PostActivity.cs" />
     <Compile Include="UI\Activitys\SplashActivity.cs" />
-    <Compile Include="UI\Adapters\PostsAdapter.cs" />
     <Compile Include="UI\Adapters\ColumnsAdapter.cs" />
     <Compile Include="UI\Fragments\ArticleFragment.cs" />
     <Compile Include="UI\Fragments\ColumnsFragment.cs" />
@@ -150,10 +145,6 @@
     <Compile Include="UI\Widgets\CircleTransform.cs" />
     <Compile Include="UI\Widgets\GrayscaleTransformation.cs" />
     <Compile Include="Utils\ApiUtils.cs" />
-    <Compile Include="Utils\DateTimeUtils.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\HtmlUtils.cs" />
     <Compile Include="Utils\OkHttpUtils.cs" />
     <Compile Include="Utils\SQLiteUtils.cs" />
   </ItemGroup>
@@ -174,12 +165,6 @@
     <AndroidResource Include="Resources\layout\recyclerview_notloading.axml" />
     <AndroidResource Include="Resources\layout\Splash.axml" />
     <AndroidResource Include="Resources\layout\test.axml" />
-    <AndroidResource Include="Resources\layout\column_item.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\post.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

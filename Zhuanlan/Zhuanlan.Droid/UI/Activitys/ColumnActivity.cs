@@ -19,11 +19,13 @@ using Square.Picasso;
 using Zhuanlan.Droid.UI.Widgets;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
+using Zhuanlan.Droid.UI.Adapters;
+using Zhuanlan.Droid.UI.Listeners;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
     [Activity(MainLauncher = true, Label = "")]
-    public class ColumnActivity : AppCompatActivity, View.IOnClickListener, IColumnView, SwipeRefreshLayout.IOnRefreshListener
+    public class ColumnActivity : AppCompatActivity, View.IOnClickListener, IColumnView, SwipeRefreshLayout.IOnRefreshListener, IOnLoadMoreListener
     {
         private string slug;
         private Handler handler;
@@ -32,17 +34,18 @@ namespace Zhuanlan.Droid.UI.Activitys
         private CollapsingToolbarLayout collapsingToolbar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private RecyclerView recyclerView;
+        private PostsAdapter adapter;
         public ImageView llAvatar;
         public TextView txtDescription;
         public TextView txtCount;
+        private int limit = 10;
+        private int offset = 0;
         public static void Start(Context context, string slug)
         {
             Intent intent = new Intent(context, typeof(ColumnActivity));
             intent.PutExtra("slug", slug);
             context.StartActivity(intent);
         }
-
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -61,12 +64,22 @@ namespace Zhuanlan.Droid.UI.Activitys
 
             swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             swipeRefreshLayout.SetOnRefreshListener(this);
+            recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            recyclerView.SetLayoutManager(new LinearLayoutManager(this));
 
             llAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
             txtDescription = FindViewById<TextView>(Resource.Id.txtDescription);
             txtCount = FindViewById<TextView>(Resource.Id.txtCount);
 
-            OnRefresh();
+            adapter = new PostsAdapter();
+            adapter.OnLoadMoreListener = this;
+
+            recyclerView.SetAdapter(adapter);
+            recyclerView.Post(() =>
+            {
+                swipeRefreshLayout.Refreshing = true;
+                OnRefresh();
+            });
         }
         public void OnClick(View v)
         {
@@ -117,9 +130,49 @@ namespace Zhuanlan.Droid.UI.Activitys
             });
         }
 
+        public void GetPostsFail(string msg)
+        {
+            handler.Post(() =>
+            {
+                if (swipeRefreshLayout.Refreshing)
+                {
+                    swipeRefreshLayout.Refreshing = false;
+                }
+                Toast.MakeText(this, msg, ToastLength.Short).Show();
+            });
+        }
+        public void GetPostsSuccess(List<PostModel> lists)
+        {
+            if (offset == 0)
+            {
+                handler.Post(() =>
+                {
+                    if (swipeRefreshLayout.Refreshing)
+                    {
+                        swipeRefreshLayout.Refreshing = false;
+                    }
+                    adapter.NewData(lists);
+                    adapter.RemoveAllFooterView();
+                    offset += lists.Count;
+                });
+            }
+            else
+            {
+                handler.Post(() =>
+                {
+                    adapter.AddData(lists);
+                    offset += lists.Count;
+                });
+            }
+        }
         public async void OnRefresh()
         {
-            await columnPresenter.GetColumn(slug);
+            await columnPresenter.GetColumn(slug, true);
+        }
+
+        public async void OnLoadMoreRequested()
+        {
+            await columnPresenter.GetPosts(slug, offset);
         }
     }
 }

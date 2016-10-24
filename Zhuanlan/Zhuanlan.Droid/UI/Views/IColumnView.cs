@@ -13,9 +13,11 @@ using Zhuanlan.Droid.Model;
 
 namespace Zhuanlan.Droid.UI.Views
 {
-    public interface IColumnsView
+    public interface IColumnView
     {
-        void GetColumnsFail(string msg);
-        void GetColumnsSuccess(List<ColumnModel> lists);
+       void GetColumnFail(string msg);
+        void GetColumnSuccess(ColumnModel column);
+        void GetPostsFail(string msg);
+        void GetPostsSuccess(List<PostModel> lists);
     }
 }

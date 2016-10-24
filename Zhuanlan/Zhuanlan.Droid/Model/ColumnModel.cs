@@ -22,9 +22,9 @@ namespace Zhuanlan.Droid.Model
         /// <summary>
         /// 创建者信息
         /// </summary>
-        public CreatorModel Creator { get; set; }
+        public AuthorModel Creator { get; set; }
         /// <summary>
-        /// 发表的文章
+        /// 专栏话题信息
         /// </summary>
         public IList<TopicModel> Topics { get; }
         /// <summary>
@@ -41,7 +41,7 @@ namespace Zhuanlan.Droid.Model
         public bool AcceptSubmission { get; set; }
         public bool FirstTime { get; set; }
         /// <summary>
-        /// 文章的话题信息
+        /// 文章话题信息
         /// </summary>
         public IList<PostTopicModel> PostTopics { get; }
         public string PendingName { get; set; }
