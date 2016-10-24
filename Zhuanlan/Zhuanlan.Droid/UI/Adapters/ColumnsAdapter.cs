@@ -13,10 +13,13 @@ using Android.Support.V7.Widget;
 using Zhuanlan.Droid.Model;
 using Zhuanlan.Droid.UI.Listeners;
 using Java.Lang;
+using Square.Picasso;
+using Zhuanlan.Droid.UI.Widgets;
+using Zhuanlan.Droid.UI.Activitys;
 
 namespace Zhuanlan.Droid.UI.Adapters
 {
-    public class ColumnAdapter : RecyclerView.Adapter, View.IOnClickListener
+    public class ColumnsAdapter : RecyclerView.Adapter, View.IOnClickListener
     {
         public const int LoadingView = 0x00000111;
         public const int FooterView = 0x00000222;
@@ -24,32 +27,39 @@ namespace Zhuanlan.Droid.UI.Adapters
         protected LayoutInflater layoutInflater;
         private LinearLayout footerLayout;
         private LinearLayout copyFooterLayout;
-        private View loadingView;
         private View loadMoreFailedView;
 
         private bool loadingMoreEnable;
 
-        public List<InitColumnModel> List;
+        public List<ColumnModel> List;
         public IOnLoadMoreListener OnLoadMoreListener;
 
-        public ColumnAdapter()
+        public ColumnsAdapter()
         {
-            List = new List<InitColumnModel>();
+            List = new List<ColumnModel>();
         }
         public override int ItemCount
         {
             get
             {
+                var count = 0;
                 if (List.Count > 0)
                 {
-                    return List.Count + 1;
+                    count = List.Count + 1;
                 }
-                return 0;
+                else
+                {
+                    if (footerLayout != null)
+                    {
+                        count = 1;
+                    }
+                }
+                return count;
             }
         }
         public override int GetItemViewType(int position)
         {
-            if (position == List.Count)
+            if (List.Count == 0 || position == List.Count)
             {
                 if (footerLayout == null)
                 {
@@ -76,7 +86,29 @@ namespace Zhuanlan.Droid.UI.Adapters
                     break;
                 default:
                     var item = (ItemViewHolder)viewHolder;
-                    item.title.Text = List[position].Column;
+                    var model = List[position];
+                    item.ItemView.Tag = model.Slug;
+                    item.ItemView.SetOnClickListener(this);
+                    item.title.Text = model.Name;
+                    if (model.Description.Trim() == "")
+                    {
+                        item.description.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        item.description.Text = model.Description;
+                        item.description.Visibility = ViewStates.Visible;
+                    }
+                    item.count.Text = model.FollowersCount + " ÈË¹Ø×¢ ¡¤ " + model.PostsCount + " ÎÄÕÂ";
+
+                    var avatar = model.Avatar.Template.Replace("{id}", model.Avatar.ID);
+                    avatar = avatar.Replace("{size}", "l");
+                    Picasso.With(context)
+                                .Load(avatar)
+                               .Transform(new CircleTransform())
+                               .Placeholder(Resource.Drawable.ic_image_placeholder)
+                               .Error(Resource.Drawable.ic_image_placeholder)
+                               .Into(item.avatar);
                     break;
             }
         }
@@ -92,16 +124,22 @@ namespace Zhuanlan.Droid.UI.Adapters
                 case FooterView:
                     return new FooterViewHolder(footerLayout);
                 default:
-                    return new ItemViewHolder(layoutInflater.Inflate(Resource.Layout.column_item, parent, false));
+                    return new ItemViewHolder(layoutInflater.Inflate(Resource.Layout.columns_item, parent, false));
             }
         }
         public class ItemViewHolder : RecyclerView.ViewHolder
         {
+            public ImageView avatar { get; set; }
             public TextView title { get; set; }
+            public TextView description { get; set; }
+            public TextView count { get; set; }
             public ItemViewHolder(View view)
                 : base(view)
             {
-                title = view.FindViewById<TextView>(Resource.Id.title);
+                avatar = view.FindViewById<ImageView>(Resource.Id.llAvatar);
+                title = view.FindViewById<TextView>(Resource.Id.txtTitle);
+                description = view.FindViewById<TextView>(Resource.Id.txtDescription);
+                count = view.FindViewById<TextView>(Resource.Id.txtCount);
             }
         }
         public class LoadingViewHolder : RecyclerView.ViewHolder
@@ -118,7 +156,7 @@ namespace Zhuanlan.Droid.UI.Adapters
             {
             }
         }
-        public void NewData(List<InitColumnModel> list)
+        public void NewData(List<ColumnModel> list)
         {
             this.List = list;
             if (loadMoreFailedView != null)
@@ -132,12 +170,12 @@ namespace Zhuanlan.Droid.UI.Adapters
             List.RemoveAt(position);
             NotifyItemRemoved(position);
         }
-        public void Add(int position, InitColumnModel item)
+        public void Add(int position, ColumnModel item)
         {
             List.Insert(position, item);
             NotifyItemInserted(position);
         }
-        public void AddData(List<InitColumnModel> newList)
+        public void AddData(List<ColumnModel> newList)
         {
             loadingMoreEnable = false;
             this.List.AddRange(newList);
@@ -214,7 +252,10 @@ namespace Zhuanlan.Droid.UI.Adapters
         }
         public void OnClick(View v)
         {
-
+            if (v.Tag != null)
+            {
+                //ColumnActivity.Start(context, v.Tag.ToString());
+            }
         }
     }
 }

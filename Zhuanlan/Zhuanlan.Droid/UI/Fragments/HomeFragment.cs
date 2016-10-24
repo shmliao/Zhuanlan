@@ -29,7 +29,7 @@ namespace Zhuanlan.Droid.UI.Fragments
         {
             base.OnCreateView(inflater, container, savedInstanceState);
 
-            return inflater.Inflate(Resource.Layout.fragment_home, container, false); ;
+            return inflater.Inflate(Resource.Layout.column, container, false); ;
         }
     }
 }

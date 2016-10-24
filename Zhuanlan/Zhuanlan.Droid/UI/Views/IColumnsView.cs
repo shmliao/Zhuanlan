@@ -13,9 +13,9 @@ using Zhuanlan.Droid.Model;
 
 namespace Zhuanlan.Droid.UI.Views
 {
-    public interface ISplashView
+    public interface IColumnView
     {
-        void GetInitColumnsSuccess(List<ColumnModel> data);
-        void GetInitColumnsFail(string msg);
+        void GetColumnFail(string msg);
+        void GetColumnSuccess(ColumnModel column);
     }
 }

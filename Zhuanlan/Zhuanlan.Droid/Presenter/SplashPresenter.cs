@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,24 +18,42 @@ namespace Zhuanlan.Presenter
         {
             this.splashView = splashView;
         }
-        public async Task GetInitColumns()
+        public async Task GetInitColumns(Stream stream)
         {
-            try
+            await Task.Run(() =>
             {
-                var columns = JsonConvert.DeserializeObject<Columns>(await OkHttpUtils.Instance.GetAsyn(ApiUtils.Init));
-                if (columns.data.Count > 0)
+                try
                 {
-                    splashView.GetInitColumnsSuccess(columns.data);
+                    StringBuilder zhuanlan = new StringBuilder();
+                    using (StreamReader sr = new StreamReader(stream, Encoding.Default, true))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            zhuanlan.Append(sr.ReadLine());
+                        }
+                    }
+                    if (zhuanlan.Length > 0)
+                    {
+                        var columns = JsonConvert.DeserializeObject<Columns>(zhuanlan.ToString());
+                        if (columns.data.Count > 0)
+                        {
+                            splashView.GetInitColumnsSuccess(columns.data);
+                        }
+                    }
+                    else
+                    {
+                        splashView.GetInitColumnsFail("初始化数据失败");
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                splashView.GetInitColumnsFail(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    splashView.GetInitColumnsFail(ex.Message);
+                }
+            });
         }
         public class Columns
         {
-            public List<InitColumnModel> data { get; set; }
+            public List<ColumnModel> data { get; set; }
         }
     }
 }

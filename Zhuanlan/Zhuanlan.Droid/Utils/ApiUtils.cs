@@ -16,7 +16,7 @@ namespace Zhuanlan.Droid.Utils
         /// </summary>
         /// <param name="column">专栏名称</param>
         /// <returns></returns>
-        public string GetColumn(string column)
+        public static string GetColumn(string column)
         {
             return Host + "/columns/" + column;
         }

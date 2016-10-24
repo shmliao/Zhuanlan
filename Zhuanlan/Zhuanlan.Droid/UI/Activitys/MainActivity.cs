@@ -9,24 +9,24 @@ using Android.Support.V4.View;
 using Android.Support.Design.Widget;
 using System;
 using Zhuanlan.Droid.UI.Fragments;
-using BottomNavigationBar;
-using BottomNavigationBar.Listeners;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Droid.Presenter;
+using BottomNavigationBar;
+using BottomNavigationBar.Listeners;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
     [Activity]
-    public class MainActivity : AppCompatActivity, IOnMenuTabClickListener, IMainView
+    public class MainActivity : AppCompatActivity, IMainView, IOnMenuTabClickListener
     {
         private BottomBar bottomBar;
         private int lastSelecteID;//上一次选中的menuItemId
         private FragmentManager fm;
         private HomeFragment homeFragment;
         private ArticleFragment articleFragment;
-        private ColumnFragment columnFragment;
+        private ColumnsFragment columnFragment;
         private LikeFragment likeFragment;
         private IMainPresenter mainPresenter;
         protected override void OnCreate(Bundle bundle)
@@ -101,7 +101,7 @@ namespace Zhuanlan.Droid.UI.Activitys
             FragmentTransaction transaction = fm.BeginTransaction();
             if (columnFragment == null)
             {
-                columnFragment = new ColumnFragment();
+                columnFragment = new ColumnsFragment();
                 transaction.Add(Resource.Id.frameContent, columnFragment).Commit();
             }
             else

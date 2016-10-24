@@ -10,12 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Zhuanlan.Droid.Utils;
-using SQLite.Net;
 using Zhuanlan.Droid.Model;
-using SQLite.Net.Platform.XamarinAndroid;
 using System.IO;
 using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Presenter;
+using Realms;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
@@ -23,6 +22,7 @@ namespace Zhuanlan.Droid.UI.Activitys
     public class SplashActivity : Activity, ISplashView
     {
         private ISplashPresenter splashPresenter;
+        private Realm realm;
         private Handler handler;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -34,21 +34,23 @@ namespace Zhuanlan.Droid.UI.Activitys
             }
             SetContentView(Resource.Layout.Splash);
 
+            realm = Realm.GetInstance();
             handler = new Handler();
             splashPresenter = new SplashPresenter(this);
         }
         protected override async void OnResume()
         {
             base.OnResume();
-            if (SQLiteUtils.Instance.Table<InitColumnModel>().Count() == 0)
+            if (realm.All<ColumnModel>().Count() == 0)
             {
-                await splashPresenter.GetInitColumns();
+                var stream = this.Assets.Open("zhuanlan.json");
+                await splashPresenter.GetInitColumns(stream);
             }
             else
             {
                 handler.PostDelayed(() =>
                 {
-                    StartActivity(new Intent(this, typeof(MainActivity)));
+                    //StartActivity(new Intent(this, typeof(MainActivity)));
                 }, 3000);
             }
         }
@@ -60,14 +62,22 @@ namespace Zhuanlan.Droid.UI.Activitys
             });
         }
 
-        public void GetInitColumnsSuccess(List<InitColumnModel> list)
+        public async void GetInitColumnsSuccess(List<ColumnModel> list)
         {
-            if (SQLiteUtils.Instance.InsertAll(list) > 0)
+            foreach (var item in list)
             {
-                handler.PostDelayed(() =>
+                await realm.WriteAsync((realm) =>
+                 {
+                     var column = realm.CreateObject<ColumnModel>();
+                     column.Slug = item.Slug;
+                 });
+            }
+            if (realm.All<ColumnModel>().Count() > 0)
+            {
+                handler.Post(() =>
                 {
-                    StartActivity(new Intent(this, typeof(MainActivity)));
-                }, 2000);
+                    //StartActivity(new Intent(this, typeof(MainActivity)));
+                });
             }
         }
     }

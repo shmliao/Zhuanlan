@@ -9,13 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Zhuanlan.Droid.Model;
+using Realms;
 
-namespace Zhuanlan.Droid.UI.Views
+namespace Zhuanlan.Droid.Model
 {
-    public interface ISplashView
+   public class PostTopicModel : RealmObject
     {
-        void GetInitColumnsSuccess(List<ColumnModel> data);
-        void GetInitColumnsFail(string msg);
+        public int PostsCount { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -9,13 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Threading.Tasks;
 using Zhuanlan.Droid.Model;
 
-namespace Zhuanlan.Droid.UI.Views
+namespace Zhuanlan.Droid.Presenter
 {
-    public interface ISplashView
+    public interface IColumnPresenter
     {
-        void GetInitColumnsSuccess(List<ColumnModel> data);
-        void GetInitColumnsFail(string msg);
+        Task GetColumn(string slug);
     }
 }
