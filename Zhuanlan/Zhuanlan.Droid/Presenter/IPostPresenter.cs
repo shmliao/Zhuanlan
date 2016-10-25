@@ -14,9 +14,8 @@ using Zhuanlan.Droid.Model;
 
 namespace Zhuanlan.Droid.Presenter
 {
-    public interface IColumnPresenter
+    public interface IPostPresenter
     {
-        Task GetColumn(string slug);
-        Task GetPosts(string slug, int offset);
+        Task GetPost(string slug);
     }
 }

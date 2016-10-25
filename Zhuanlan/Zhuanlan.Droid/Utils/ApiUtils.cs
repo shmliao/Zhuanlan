@@ -31,5 +31,14 @@ namespace Zhuanlan.Droid.Utils
         {
             return Host + "/columns/" + slug + "/posts?limit=" + limit + "&offset=" + offset;
         }
+        /// <summary>
+        /// 获取文章信息
+        /// </summary>
+        /// <param name="slug">文章名称</param>
+        /// <returns></returns>
+        public static string GetPost(string slug)
+        {
+            return Host + "/posts/" + slug;
+        }
     }
 }

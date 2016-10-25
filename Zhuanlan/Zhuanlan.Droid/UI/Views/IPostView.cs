@@ -9,14 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System.Threading.Tasks;
 using Zhuanlan.Droid.Model;
 
-namespace Zhuanlan.Droid.Presenter
+namespace Zhuanlan.Droid.UI.Views
 {
-    public interface IColumnPresenter
+    public interface IPostView
     {
-        Task GetColumn(string slug);
-        Task GetPosts(string slug, int offset);
+       void GetPostFail(string msg);
+        void GetPostSuccess(PostModel post);
     }
 }

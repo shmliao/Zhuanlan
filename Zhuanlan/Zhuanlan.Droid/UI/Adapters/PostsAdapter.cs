@@ -270,7 +270,7 @@ namespace Zhuanlan.Droid.UI.Adapters
         {
             if (v.Tag != null)
             {
-                //ColumnActivity.Start(context, v.Tag.ToString());
+                PostActivity.Start(context, v.Tag.ToString());
             }
         }
     }

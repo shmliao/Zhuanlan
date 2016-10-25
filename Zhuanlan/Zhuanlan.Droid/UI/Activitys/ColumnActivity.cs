@@ -24,7 +24,7 @@ using Zhuanlan.Droid.UI.Listeners;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
-    [Activity(MainLauncher = true, Label = "")]
+    [Activity(Label = "")]
     public class ColumnActivity : AppCompatActivity, View.IOnClickListener, IColumnView, SwipeRefreshLayout.IOnRefreshListener, IOnLoadMoreListener
     {
         private string slug;
@@ -84,6 +84,10 @@ namespace Zhuanlan.Droid.UI.Activitys
         public void OnClick(View v)
         {
             this.Finish();
+        }
+        public async void OnRefresh()
+        {
+            await columnPresenter.GetColumn(slug);
         }
 
         public void GetColumnFail(string msg)
@@ -164,10 +168,6 @@ namespace Zhuanlan.Droid.UI.Activitys
                     offset += lists.Count;
                 });
             }
-        }
-        public async void OnRefresh()
-        {
-            await columnPresenter.GetColumn(slug, true);
         }
 
         public async void OnLoadMoreRequested()

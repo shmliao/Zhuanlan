@@ -24,7 +24,7 @@ namespace Zhuanlan.Droid.Presenter
         {
             this.columnView = columnView;
         }
-        public async Task GetColumn(string slug, bool iscolumn)
+        public async Task GetColumn(string slug)
         {
             try
             {

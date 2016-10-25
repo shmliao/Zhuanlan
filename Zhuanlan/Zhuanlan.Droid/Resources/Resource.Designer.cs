@@ -3271,6 +3271,9 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f050050
 			public const int notification_subtext_size = 2131034192;
 			
+			// aapt resource value: 0x7f050073
+			public const int toolbar_padding_top = 2131034227;
+			
 			static Dimension()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -3633,17 +3636,17 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060071
 			public const int bb_bottom_bar_title = 2131099761;
 			
-			// aapt resource value: 0x7f0600a6
-			public const int bb_menu_article = 2131099814;
-			
-			// aapt resource value: 0x7f0600a5
-			public const int bb_menu_column = 2131099813;
-			
-			// aapt resource value: 0x7f0600a4
-			public const int bb_menu_home = 2131099812;
+			// aapt resource value: 0x7f0600a8
+			public const int bb_menu_article = 2131099816;
 			
 			// aapt resource value: 0x7f0600a7
-			public const int bb_menu_like = 2131099815;
+			public const int bb_menu_column = 2131099815;
+			
+			// aapt resource value: 0x7f0600a6
+			public const int bb_menu_home = 2131099814;
+			
+			// aapt resource value: 0x7f0600a9
+			public const int bb_menu_like = 2131099817;
 			
 			// aapt resource value: 0x7f06006f
 			public const int bb_tablet_right_border = 2131099759;
@@ -3783,8 +3786,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
 			
-			// aapt resource value: 0x7f0600a2
-			public const int imageView1 = 2131099810;
+			// aapt resource value: 0x7f0600a4
+			public const int imageView1 = 2131099812;
 			
 			// aapt resource value: 0x7f06009d
 			public const int info = 2131099805;
@@ -3819,20 +3822,20 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060090
 			public const int loadMoreText = 2131099792;
 			
-			// aapt resource value: 0x7f06009f
-			public const int loading_progress = 2131099807;
-			
-			// aapt resource value: 0x7f0600a0
-			public const int loading_text = 2131099808;
-			
 			// aapt resource value: 0x7f0600a1
-			public const int loading_view = 2131099809;
+			public const int loading_progress = 2131099809;
+			
+			// aapt resource value: 0x7f0600a2
+			public const int loading_text = 2131099810;
+			
+			// aapt resource value: 0x7f0600a3
+			public const int loading_view = 2131099811;
 			
 			// aapt resource value: 0x7f060072
 			public const int main_content = 2131099762;
 			
-			// aapt resource value: 0x7f0600a3
-			public const int main_iv_placeholder = 2131099811;
+			// aapt resource value: 0x7f0600a5
+			public const int main_iv_placeholder = 2131099813;
 			
 			// aapt resource value: 0x7f060095
 			public const int media_actions = 2131099797;
@@ -4019,6 +4022,12 @@ namespace Zhuanlan.Droid
 			
 			// aapt resource value: 0x7f060083
 			public const int touch_outside = 2131099779;
+			
+			// aapt resource value: 0x7f06009f
+			public const int txtAuthor = 2131099807;
+			
+			// aapt resource value: 0x7f0600a0
+			public const int txtBio = 2131099808;
 			
 			// aapt resource value: 0x7f060081
 			public const int txtCommentsCount = 2131099777;

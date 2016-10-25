@@ -122,8 +122,10 @@
     <Compile Include="Model\PostModel.cs" />
     <Compile Include="Model\PostTopicModel.cs" />
     <Compile Include="Model\TopicModel.cs" />
+    <Compile Include="Presenter\PostPresenter.cs" />
     <Compile Include="Presenter\ColumnPresenter.cs" />
     <Compile Include="Presenter\ColumnsPresenter.cs" />
+    <Compile Include="Presenter\IPostPresenter.cs" />
     <Compile Include="Presenter\IColumnPresenter.cs" />
     <Compile Include="Presenter\IColumnsPresenter.cs" />
     <Compile Include="Presenter\IMainPresenter.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="UI\Fragments\HomeFragment.cs" />
     <Compile Include="UI\Fragments\LikeFragment.cs" />
     <Compile Include="UI\Listeners\IOnLoadMoreListener.cs" />
+    <Compile Include="UI\Views\IPostView.cs" />
     <Compile Include="UI\Views\IColumnView.cs" />
     <Compile Include="UI\Views\IColumnsView.cs" />
     <Compile Include="UI\Views\IMainView.cs" />
@@ -236,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
+    <AndroidResource Include="Resources\values-v19\dimens.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
