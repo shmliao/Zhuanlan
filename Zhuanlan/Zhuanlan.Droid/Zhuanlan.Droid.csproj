@@ -236,10 +236,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Resources\values-v19\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
-    <AndroidResource Include="Resources\values-v19\dimens.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

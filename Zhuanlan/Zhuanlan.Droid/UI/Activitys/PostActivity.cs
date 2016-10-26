@@ -46,14 +46,9 @@ namespace Zhuanlan.Droid.UI.Activitys
             slug = "22921645";
             handler = new Handler();
             postPresenter = new PostPresenter(this);
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.Kitkat)
-            {
-                //Window.AddFlags(WindowManagerFlags.LayoutNoLimits);
-                //WindowManagerLayoutParams localLayoutParams = Window.Attributes;
-                //localLayoutParams.Flags = (WindowManagerFlags.TranslucentStatus | localLayoutParams.Flags);
-            }
             SetContentView(Resource.Layout.post);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            toolbar.Alpha = 0;
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 
