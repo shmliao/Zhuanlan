@@ -20,6 +20,7 @@ using Zhuanlan.Droid.Model;
 using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Droid.Presenter;
 using Realms;
+using System.Collections;
 
 namespace Zhuanlan.Droid.UI.Fragments
 {
@@ -34,6 +35,8 @@ namespace Zhuanlan.Droid.UI.Fragments
         private int offset = 0;
         private IColumnsPresenter columnsPresenter;
         private Realm realm;
+        private List<int> offsetList = new List<int>();
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -67,7 +70,22 @@ namespace Zhuanlan.Droid.UI.Fragments
         }
         private List<ColumnModel> GetColumns()
         {
-            return realm.All<ColumnModel>().ToList().Take(10).ToList();
+            var columns = realm.All<ColumnModel>().ToList();
+            var list = new List<ColumnModel>();
+            var random = new Random();
+            var index = -1;
+
+            while (list.Count <= 10 && offsetList.Count < columns.Count)
+            {
+                do
+                {
+                    index = random.Next(1, columns.Count);
+                }
+                while (offsetList.Where(o => o == index).FirstOrDefault() > 0);
+                offsetList.Add(index);
+                list.Add(columns[index - 1]);
+            }
+            return list;
         }
 
         public async void OnLoadMoreRequested()
@@ -78,6 +96,7 @@ namespace Zhuanlan.Droid.UI.Fragments
 
         public async void OnRefresh()
         {
+            offsetList.Clear();
             if (offset > 0)
                 offset = 0;
             var lists = GetColumns();

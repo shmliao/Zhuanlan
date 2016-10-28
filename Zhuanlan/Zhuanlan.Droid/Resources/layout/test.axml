@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+  <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="10dp">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/Icon"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/llAvatar"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp" />
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal">
-        <ImageView
-            android:id="@+id/main_iv_placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/Icon" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/llAvatar"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="5dp">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/txtTitle"
+          android:textColor="@color/title_color"/>
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_vertical">
         <TextView
-            android:text="8202 人关注 "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:id="@+id/txtFollowersCount"
+            android:textColor="@color/subtitle_color"
+            android:textSize="12sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="分享华兴" />
+            android:id="@+id/txtPostsCount"
+            android:textColor="@color/subtitle_color"
+            android:textSize="12sp" />
+      </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/subtitle_color"
+        android:layout_below="@+id/llAvatar"/>
+  </RelativeLayout>

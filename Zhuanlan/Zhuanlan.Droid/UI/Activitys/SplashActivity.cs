@@ -50,7 +50,8 @@ namespace Zhuanlan.Droid.UI.Activitys
             {
                 handler.PostDelayed(() =>
                 {
-                    //StartActivity(new Intent(this, typeof(MainActivity)));
+                    StartActivity(new Intent(this, typeof(MainActivity)));
+                    this.Finish();
                 }, 3000);
             }
         }
@@ -76,7 +77,8 @@ namespace Zhuanlan.Droid.UI.Activitys
             {
                 handler.Post(() =>
                 {
-                    //StartActivity(new Intent(this, typeof(MainActivity)));
+                    StartActivity(new Intent(this, typeof(MainActivity)));
+                    this.Finish();
                 });
             }
         }

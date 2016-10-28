@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Utils\HtmlUtils.cs" />
     <Compile Include="Utils\OkHttpUtils.cs" />
+    <Compile Include="Utils\PostWebView.cs" />
     <Compile Include="Utils\SQLiteUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -214,9 +215,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_favorite_border_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_black_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_image_placeholder.png" />
   </ItemGroup>
   <ItemGroup>
@@ -239,7 +237,12 @@
     <Folder Include="Resources\values-v19\" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\post.css" />
     <Content Include="FodyWeavers.xml" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_perm_identity_white_18dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_subject_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_visibility_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_home_white_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

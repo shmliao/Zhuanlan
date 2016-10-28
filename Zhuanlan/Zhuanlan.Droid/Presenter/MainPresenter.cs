@@ -33,9 +33,6 @@ namespace Zhuanlan.Droid.Presenter
                 case Resource.Id.bb_menu_home:
                     mainView.SwitchHome();
                     break;
-                case Resource.Id.bb_menu_article:
-                    mainView.SwitchArticle();
-                    break;
                 case Resource.Id.bb_menu_column:
                     mainView.SwitchColumn();
                     break;
@@ -52,9 +49,6 @@ namespace Zhuanlan.Droid.Presenter
             {
                 case Resource.Id.bb_menu_home:
                     mainView.HideHome();
-                    break;
-                case Resource.Id.bb_menu_article:
-                    mainView.HideArticle();
                     break;
                 case Resource.Id.bb_menu_column:
                     mainView.HideColumn();

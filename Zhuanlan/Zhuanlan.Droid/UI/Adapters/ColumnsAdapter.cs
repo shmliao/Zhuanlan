@@ -90,7 +90,7 @@ namespace Zhuanlan.Droid.UI.Adapters
                     item.ItemView.Tag = model.Slug;
                     item.ItemView.SetOnClickListener(this);
                     item.title.Text = model.Name;
-                    if (model.Description.Trim() == "")
+                    if (model.Description == null || model.Description == "")
                     {
                         item.description.Visibility = ViewStates.Gone;
                     }
@@ -99,7 +99,8 @@ namespace Zhuanlan.Droid.UI.Adapters
                         item.description.Text = model.Description;
                         item.description.Visibility = ViewStates.Visible;
                     }
-                    item.count.Text = model.FollowersCount + " 人关注 · " + model.PostsCount + " 文章";
+                    item.followersCount.Text = model.FollowersCount + " 人关注";
+                    item.postsCount.Text = " · " + model.PostsCount + " 文章";
 
                     var avatar = model.Avatar.Template.Replace("{id}", model.Avatar.ID);
                     avatar = avatar.Replace("{size}", "l");
@@ -132,14 +133,16 @@ namespace Zhuanlan.Droid.UI.Adapters
             public ImageView avatar { get; set; }
             public TextView title { get; set; }
             public TextView description { get; set; }
-            public TextView count { get; set; }
+            public TextView followersCount { get; set; }
+            public TextView postsCount { get; set; }
             public ItemViewHolder(View view)
                 : base(view)
             {
                 avatar = view.FindViewById<ImageView>(Resource.Id.llAvatar);
                 title = view.FindViewById<TextView>(Resource.Id.txtTitle);
                 description = view.FindViewById<TextView>(Resource.Id.txtDescription);
-                count = view.FindViewById<TextView>(Resource.Id.txtCount);
+                followersCount = view.FindViewById<TextView>(Resource.Id.txtFollowersCount);
+                postsCount = view.FindViewById<TextView>(Resource.Id.txtPostsCount);
             }
         }
         public class LoadingViewHolder : RecyclerView.ViewHolder
@@ -254,7 +257,7 @@ namespace Zhuanlan.Droid.UI.Adapters
         {
             if (v.Tag != null)
             {
-                //ColumnActivity.Start(context, v.Tag.ToString());
+                ColumnActivity.Start(context, v.Tag.ToString());
             }
         }
     }

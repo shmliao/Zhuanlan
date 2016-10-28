@@ -30,15 +30,17 @@ namespace Zhuanlan.Droid.UI.Activitys
         private string slug;
         private Handler handler;
         private IColumnPresenter columnPresenter;
-
+        private Toolbar toolbar;
         private CollapsingToolbarLayout collapsingToolbar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private RecyclerView recyclerView;
         private PostsAdapter adapter;
         public ImageView llAvatar;
+        public TextView txtName;
         public TextView txtDescription;
-        public TextView txtCount;
-        private int limit = 10;
+        public TextView txtFollowersCount;
+        public TextView txtPostsCount;
+        public TextView txtEmpty;
         private int offset = 0;
         public static void Start(Context context, string slug)
         {
@@ -49,16 +51,17 @@ namespace Zhuanlan.Droid.UI.Activitys
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //slug = Intent.GetStringExtra("slug");
-            slug = "zhihuadmin";
+            slug = Intent.GetStringExtra("slug");
+            //slug = "haobama";
 
             handler = new Handler();
             columnPresenter = new ColumnPresenter(this);
 
             SetContentView(Resource.Layout.column);
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+            toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            toolbar.SetNavigationOnClickListener(this);
 
             collapsingToolbar = FindViewById<CollapsingToolbarLayout>(Resource.Id.collapsing_toolbar);
 
@@ -68,8 +71,11 @@ namespace Zhuanlan.Droid.UI.Activitys
             recyclerView.SetLayoutManager(new LinearLayoutManager(this));
 
             llAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
+            txtName = FindViewById<TextView>(Resource.Id.txtName);
             txtDescription = FindViewById<TextView>(Resource.Id.txtDescription);
-            txtCount = FindViewById<TextView>(Resource.Id.txtCount);
+            txtFollowersCount = FindViewById<TextView>(Resource.Id.txtFollowersCount);
+            txtPostsCount = FindViewById<TextView>(Resource.Id.txtPostsCount);
+            txtEmpty = FindViewById<TextView>(Resource.Id.txtEmpty);
 
             adapter = new PostsAdapter();
             adapter.OnLoadMoreListener = this;
@@ -110,9 +116,11 @@ namespace Zhuanlan.Droid.UI.Activitys
                 {
                     swipeRefreshLayout.Refreshing = false;
                 }
-                collapsingToolbar.SetTitle(column.Name);
+                toolbar.Title = column.Name;
 
-                if (column.Description.Trim() == "")
+                txtName.Text = column.Name;
+
+                if (column.Description == null || column.Description == "")
                 {
                     txtDescription.Visibility = ViewStates.Gone;
                 }
@@ -121,7 +129,8 @@ namespace Zhuanlan.Droid.UI.Activitys
                     txtDescription.Text = column.Description;
                     txtDescription.Visibility = ViewStates.Visible;
                 }
-                txtCount.Text = column.FollowersCount + " 人关注";
+                txtFollowersCount.Text = column.FollowersCount + " 人关注";
+                txtPostsCount.Text = " · " + column.PostsCount + " 文章";
 
                 var avatar = column.Avatar.Template.Replace("{id}", column.Avatar.ID);
                 avatar = avatar.Replace("{size}", "l");
@@ -155,9 +164,17 @@ namespace Zhuanlan.Droid.UI.Activitys
                     {
                         swipeRefreshLayout.Refreshing = false;
                     }
-                    adapter.NewData(lists);
-                    adapter.RemoveAllFooterView();
-                    offset += lists.Count;
+                    if (lists.Count > 0)
+                    {
+                        txtEmpty.Visibility = ViewStates.Gone;
+                        adapter.NewData(lists);
+                        adapter.RemoveAllFooterView();
+                        offset += lists.Count;
+                    }
+                    else
+                    {
+                        txtEmpty.Visibility = ViewStates.Visible;
+                    }
                 });
             }
             else

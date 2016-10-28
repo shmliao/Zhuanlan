@@ -3528,22 +3528,31 @@ namespace Zhuanlan.Droid
 			public const int ic_favorite_border_white_24dp = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int ic_home_black_24dp = 2130837584;
+			public const int ic_home_white_24dp = 2130837584;
 			
 			// aapt resource value: 0x7f020051
 			public const int ic_image_placeholder = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int Icon = 2130837586;
+			public const int ic_perm_identity_white_18dp = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int noise = 2130837587;
-			
-			// aapt resource value: 0x7f020055
-			public const int notification_template_icon_bg = 2130837589;
+			public const int ic_subject_white_24dp = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int splash = 2130837588;
+			public const int ic_visibility_white_24dp = 2130837588;
+			
+			// aapt resource value: 0x7f020055
+			public const int Icon = 2130837589;
+			
+			// aapt resource value: 0x7f020056
+			public const int noise = 2130837590;
+			
+			// aapt resource value: 0x7f020058
+			public const int notification_template_icon_bg = 2130837592;
+			
+			// aapt resource value: 0x7f020057
+			public const int splash = 2130837591;
 			
 			static Drawable()
 			{
@@ -3637,13 +3646,10 @@ namespace Zhuanlan.Droid
 			public const int bb_bottom_bar_title = 2131099761;
 			
 			// aapt resource value: 0x7f0600a8
-			public const int bb_menu_article = 2131099816;
+			public const int bb_menu_column = 2131099816;
 			
 			// aapt resource value: 0x7f0600a7
-			public const int bb_menu_column = 2131099815;
-			
-			// aapt resource value: 0x7f0600a6
-			public const int bb_menu_home = 2131099814;
+			public const int bb_menu_home = 2131099815;
 			
 			// aapt resource value: 0x7f0600a9
 			public const int bb_menu_like = 2131099817;
@@ -3693,8 +3699,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f06001f
 			public const int collapseActionView = 2131099679;
 			
-			// aapt resource value: 0x7f060074
-			public const int collapsing_toolbar = 2131099764;
+			// aapt resource value: 0x7f06009f
+			public const int collapsing_toolbar = 2131099807;
 			
 			// aapt resource value: 0x7f06004a
 			public const int contentPanel = 2131099722;
@@ -3753,9 +3759,6 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060051
 			public const int expanded_menu = 2131099729;
 			
-			// aapt resource value: 0x7f06007b
-			public const int fab = 2131099771;
-			
 			// aapt resource value: 0x7f060035
 			public const int fill = 2131099701;
 			
@@ -3786,8 +3789,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
 			
-			// aapt resource value: 0x7f0600a4
-			public const int imageView1 = 2131099812;
+			// aapt resource value: 0x7f0600a6
+			public const int imageView1 = 2131099814;
 			
 			// aapt resource value: 0x7f06009d
 			public const int info = 2131099805;
@@ -3810,8 +3813,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060041
 			public const int list_item = 2131099713;
 			
-			// aapt resource value: 0x7f060075
-			public const int llAvatar = 2131099765;
+			// aapt resource value: 0x7f060076
+			public const int llAvatar = 2131099766;
 			
 			// aapt resource value: 0x7f06008e
 			public const int loadMoreLayout = 2131099790;
@@ -3822,20 +3825,17 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060090
 			public const int loadMoreText = 2131099792;
 			
-			// aapt resource value: 0x7f0600a1
-			public const int loading_progress = 2131099809;
-			
-			// aapt resource value: 0x7f0600a2
-			public const int loading_text = 2131099810;
-			
 			// aapt resource value: 0x7f0600a3
-			public const int loading_view = 2131099811;
+			public const int loading_progress = 2131099811;
+			
+			// aapt resource value: 0x7f0600a4
+			public const int loading_text = 2131099812;
+			
+			// aapt resource value: 0x7f0600a5
+			public const int loading_view = 2131099813;
 			
 			// aapt resource value: 0x7f060072
 			public const int main_content = 2131099762;
-			
-			// aapt resource value: 0x7f0600a5
-			public const int main_iv_placeholder = 2131099813;
 			
 			// aapt resource value: 0x7f060095
 			public const int media_actions = 2131099797;
@@ -3873,6 +3873,9 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060029
 			public const int pin = 2131099689;
 			
+			// aapt resource value: 0x7f0600a2
+			public const int postContent = 2131099810;
+			
 			// aapt resource value: 0x7f060006
 			public const int progress_circular = 2131099654;
 			
@@ -3882,8 +3885,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060054
 			public const int radio = 2131099732;
 			
-			// aapt resource value: 0x7f06007a
-			public const int recyclerView = 2131099770;
+			// aapt resource value: 0x7f06007b
+			public const int recyclerView = 2131099771;
 			
 			// aapt resource value: 0x7f060030
 			public const int right = 2131099696;
@@ -3984,8 +3987,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060065
 			public const int submit_area = 2131099749;
 			
-			// aapt resource value: 0x7f060079
-			public const int swipeRefreshLayout = 2131099769;
+			// aapt resource value: 0x7f060075
+			public const int swipeRefreshLayout = 2131099765;
 			
 			// aapt resource value: 0x7f06000d
 			public const int tabMode = 2131099661;
@@ -4011,8 +4014,8 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060048
 			public const int title_template = 2131099720;
 			
-			// aapt resource value: 0x7f060078
-			public const int toolbar = 2131099768;
+			// aapt resource value: 0x7f060074
+			public const int toolbar = 2131099764;
 			
 			// aapt resource value: 0x7f060032
 			public const int top = 2131099698;
@@ -4023,26 +4026,32 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060083
 			public const int touch_outside = 2131099779;
 			
-			// aapt resource value: 0x7f06009f
-			public const int txtAuthor = 2131099807;
-			
 			// aapt resource value: 0x7f0600a0
-			public const int txtBio = 2131099808;
+			public const int txtAuthor = 2131099808;
+			
+			// aapt resource value: 0x7f0600a1
+			public const int txtBio = 2131099809;
 			
 			// aapt resource value: 0x7f060081
 			public const int txtCommentsCount = 2131099777;
 			
-			// aapt resource value: 0x7f060076
-			public const int txtCount = 2131099766;
+			// aapt resource value: 0x7f06007a
+			public const int txtDescription = 2131099770;
 			
-			// aapt resource value: 0x7f060077
-			public const int txtDescription = 2131099767;
+			// aapt resource value: 0x7f06007c
+			public const int txtEmpty = 2131099772;
+			
+			// aapt resource value: 0x7f060078
+			public const int txtFollowersCount = 2131099768;
 			
 			// aapt resource value: 0x7f060080
 			public const int txtLikesCount = 2131099776;
 			
-			// aapt resource value: 0x7f06007c
-			public const int txtName = 2131099772;
+			// aapt resource value: 0x7f060077
+			public const int txtName = 2131099767;
+			
+			// aapt resource value: 0x7f060079
+			public const int txtPostsCount = 2131099769;
 			
 			// aapt resource value: 0x7f06007f
 			public const int txtSummary = 2131099775;
