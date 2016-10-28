@@ -31,7 +31,6 @@ namespace Zhuanlan.Droid.UI.Activitys
         private Handler handler;
         private IColumnPresenter columnPresenter;
         private Toolbar toolbar;
-        private CollapsingToolbarLayout collapsingToolbar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private RecyclerView recyclerView;
         private PostsAdapter adapter;
@@ -63,12 +62,17 @@ namespace Zhuanlan.Droid.UI.Activitys
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             toolbar.SetNavigationOnClickListener(this);
 
-            collapsingToolbar = FindViewById<CollapsingToolbarLayout>(Resource.Id.collapsing_toolbar);
-
             swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             swipeRefreshLayout.SetOnRefreshListener(this);
             recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            recyclerView.SetLayoutManager(new LinearLayoutManager(this));
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            layoutManager.SmoothScrollbarEnabled = true;
+            layoutManager.AutoMeasureEnabled = true;
+
+            recyclerView.SetLayoutManager(layoutManager);
+            recyclerView.HasFixedSize = true;
+            recyclerView.NestedScrollingEnabled = false;
 
             llAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
             txtName = FindViewById<TextView>(Resource.Id.txtName);

@@ -18,7 +18,7 @@ using Realms;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
-    [Activity(MainLauncher = true)]
+    [Activity()]
     public class SplashActivity : Activity, ISplashView
     {
         private ISplashPresenter splashPresenter;

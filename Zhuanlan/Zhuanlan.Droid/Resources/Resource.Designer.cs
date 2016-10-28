@@ -3700,7 +3700,7 @@ namespace Zhuanlan.Droid
 			public const int collapseActionView = 2131099679;
 			
 			// aapt resource value: 0x7f06009f
-			public const int collapsing_toolbar = 2131099807;
+			public const int collapsingtoolbar = 2131099807;
 			
 			// aapt resource value: 0x7f06004a
 			public const int contentPanel = 2131099722;

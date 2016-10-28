@@ -20,17 +20,20 @@ using Zhuanlan.Droid.Presenter;
 using Android.Graphics;
 using Android.Webkit;
 using Zhuanlan.Droid.Utils;
+using Android.Support.Design.Widget;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
-    [Activity(Label = "")]
-    public class PostActivity : AppCompatActivity, View.IOnClickListener, IPostView, SwipeRefreshLayout.IOnRefreshListener, ViewTreeObserver.IOnScrollChangedListener
+    [Activity(MainLauncher = true, Label = "")]
+    public class PostActivity : AppCompatActivity, View.IOnClickListener, IPostView, SwipeRefreshLayout.IOnRefreshListener, ViewTreeObserver.IOnScrollChangedListener, AppBarLayout.IOnOffsetChangedListener
     {
         private string slug;
         private Handler handler;
         private IPostPresenter postPresenter;
 
         private Toolbar toolbar;
+        private CollapsingToolbarLayout collapsingToolbar;
+        private AppBarLayout appbar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private NestedScrollView scrollView;
         private ImageView titleImage;
@@ -40,6 +43,8 @@ namespace Zhuanlan.Droid.UI.Activitys
         private TextView txtBio;
         private TextView txtTime;
         private PostWebView postContent;
+
+        private string title = "";
         public static void Start(Context context, string slug)
         {
             Intent intent = new Intent(context, typeof(PostActivity));
@@ -50,7 +55,7 @@ namespace Zhuanlan.Droid.UI.Activitys
         {
             base.OnCreate(savedInstanceState);
             slug = Intent.GetStringExtra("slug");
-            //slug = "23106868";
+            slug = "19862126";
             handler = new Handler();
             postPresenter = new PostPresenter(this);
             SetContentView(Resource.Layout.post);
@@ -61,6 +66,11 @@ namespace Zhuanlan.Droid.UI.Activitys
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             toolbar.SetNavigationOnClickListener(this);
+
+            collapsingToolbar = FindViewById<CollapsingToolbarLayout>(Resource.Id.collapsingtoolbar);
+
+            appbar = FindViewById<AppBarLayout>(Resource.Id.appbar);
+            appbar.AddOnOffsetChangedListener(this);
 
             swipeRefreshLayout = FindViewById<SwipeRefreshLayout>(Resource.Id.swipeRefreshLayout);
             swipeRefreshLayout.SetOnRefreshListener(this);
@@ -80,6 +90,7 @@ namespace Zhuanlan.Droid.UI.Activitys
                 swipeRefreshLayout.Refreshing = true;
                 OnRefresh();
             });
+
         }
         public void OnClick(View v)
         {
@@ -110,6 +121,7 @@ namespace Zhuanlan.Droid.UI.Activitys
                 {
                     swipeRefreshLayout.Refreshing = false;
                 }
+                title = post.Title;
                 txtAuthor.Text = post.Author.Name;
                 txtBio.Text = post.Author.Bio;
                 var content = "<h1>" + post.Title + "</h1>" + post.Content;
@@ -121,6 +133,10 @@ namespace Zhuanlan.Droid.UI.Activitys
                     Picasso.With(this)
                                 .Load(post.TitleImage)
                                .Into(titleImage);
+                }
+                else
+                {
+                    
                 }
                 var avatar = post.Author.Avatar.Template.Replace("{id}", post.Author.Avatar.ID);
                 avatar = avatar.Replace("{size}", "l");
@@ -136,6 +152,43 @@ namespace Zhuanlan.Droid.UI.Activitys
         public void OnScrollChanged()
         {
             swipeRefreshLayout.Enabled = scrollView.ScrollY == 0;
+        }
+
+        public void OnOffsetChanged(AppBarLayout layout, int verticalOffset)
+        {
+            if (verticalOffset == 0)
+            {
+                if (CollapsingState != CollapsingToolbarLayoutState.Expanded)
+                {
+                    CollapsingState = CollapsingToolbarLayoutState.Expanded;//修改状态标记为展开
+                    collapsingToolbar.SetTitle("");//设置title不显示
+                }
+            }
+            else if (Math.Abs(verticalOffset) >= layout.TotalScrollRange)
+            {
+                if (CollapsingState != CollapsingToolbarLayoutState.Collapsed)
+                {
+                    collapsingToolbar.SetTitle(title);//设置title不显示
+                    CollapsingState = CollapsingToolbarLayoutState.Collapsed;//修改状态标记为折叠
+                }
+            }
+            else
+            {
+                if (CollapsingState != CollapsingToolbarLayoutState.Internediate)
+                {
+                    CollapsingState = CollapsingToolbarLayoutState.Internediate;//修改状态标记为中间
+                    collapsingToolbar.SetTitle("");//设置title不显示
+                }
+            }
+        }
+
+        private CollapsingToolbarLayoutState CollapsingState;
+
+        private enum CollapsingToolbarLayoutState
+        {
+            Expanded,
+            Collapsed,
+            Internediate
         }
     }
 }
