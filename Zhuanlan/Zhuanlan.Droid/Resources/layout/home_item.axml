@@ -32,6 +32,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/org"
                 android:layout_marginLeft="5dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTime"
+                android:textColor="@color/subtitle_color"
+                android:textSize="12sp"
+                android:gravity="right" />
         </LinearLayout>
         <ImageView
             android:id="@+id/titleImage"
@@ -43,43 +50,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtTitle"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:textColor="@color/title_color"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:id="@+id/txtSummary"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/subtitle_color"
             android:scrollHorizontally="true"
             android:ellipsize="end"
             android:maxLines="3" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/txtLikesCount"
-                android:textColor="@color/subtitle_color"
-                android:textSize="12sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/txtCommentsCount"
-                android:textColor="@color/subtitle_color"
-                android:textSize="12sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/txtTime"
-                android:textColor="@color/subtitle_color"
-                android:textSize="12sp" />
-        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -15,7 +15,9 @@ namespace Zhuanlan.Droid.UI.Views
 {
     public interface IPostView
     {
-       void GetPostFail(string msg);
+        void GetPostFail(string msg);
         void GetPostSuccess(PostModel post);
+        void GetContributedFail(string msg);
+        void GetContributedSuccess(List<ContributedModel> lists);
     }
 }

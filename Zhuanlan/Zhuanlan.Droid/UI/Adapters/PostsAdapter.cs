@@ -92,6 +92,31 @@ namespace Zhuanlan.Droid.UI.Adapters
                     item.ItemView.SetOnClickListener(this);
                     item.name.Text = model.Author.Name;
                     item.title.Text = model.Title;
+
+                    if (model.Author.IsOrg)
+                    {
+                        item.org.Visibility = ViewStates.Visible;
+                        item.org.SetImageResource(Resource.Drawable.identity);
+                    }
+                    else
+                    {
+                        if (model.Author.Badge != null)
+                        {
+                            item.org.Visibility = ViewStates.Visible;
+                            if (model.Author.Badge.Identity != null)
+                            {
+                                item.org.SetImageResource(Resource.Drawable.identity);
+                            }
+                            else if (model.Author.Badge.Best_answerer != null)
+                            {
+                                item.org.SetImageResource(Resource.Drawable.bestanswerer);
+                            }
+                        }
+                        else
+                        {
+                            item.org.Visibility = ViewStates.Gone;
+                        }
+                    }
                     item.summary.Text = HtmlUtils.ReplaceHtmlTag(model.Content,500);
                     item.likesCount.Text = model.LikesCount + " ÔÞ";
                     item.commentsCount.Text = " ¡¤ " + model.CommentsCount + " ÆÀÂÛ";
@@ -106,6 +131,8 @@ namespace Zhuanlan.Droid.UI.Adapters
                         item.titleImage.Visibility = ViewStates.Visible;
                         Picasso.With(context)
                                     .Load(model.TitleImage)
+                                    .Placeholder(Resource.Drawable.ic_placeholder)
+                                    .Error(Resource.Drawable.ic_placeholder)
                                    .Into(item.titleImage);
                     }
                     var avatar = model.Author.Avatar.Template.Replace("{id}", model.Author.Avatar.ID);
@@ -113,8 +140,8 @@ namespace Zhuanlan.Droid.UI.Adapters
                     Picasso.With(context)
                                 .Load(avatar)
                                .Transform(new CircleTransform())
-                               .Placeholder(Resource.Drawable.ic_image_placeholder)
-                               .Error(Resource.Drawable.ic_image_placeholder)
+                               .Placeholder(Resource.Drawable.ic_placeholder_radius)
+                               .Error(Resource.Drawable.ic_placeholder_radius)
                                .Into(item.avatar);
                     break;
             }
@@ -140,6 +167,7 @@ namespace Zhuanlan.Droid.UI.Adapters
             public ImageView avatar { get; set; }
             public TextView name { get; set; }
             public ImageView titleImage { get; set; }
+            public ImageView org { get; set; }
             public TextView title { get; set; }
             public TextView summary { get; set; }
             public TextView likesCount { get; set; }
@@ -151,6 +179,7 @@ namespace Zhuanlan.Droid.UI.Adapters
                 avatar = view.FindViewById<ImageView>(Resource.Id.llAvatar);
                 name = view.FindViewById<TextView>(Resource.Id.txtName);
                 titleImage = view.FindViewById<ImageView>(Resource.Id.titleImage);
+                org = view.FindViewById<ImageView>(Resource.Id.org);
                 title = view.FindViewById<TextView>(Resource.Id.txtTitle);
                 summary = view.FindViewById<TextView>(Resource.Id.txtSummary);
                 likesCount = view.FindViewById<TextView>(Resource.Id.txtLikesCount);

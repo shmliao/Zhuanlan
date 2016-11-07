@@ -9,8 +9,6 @@ namespace Zhuanlan.Droid.Utils
     public class ApiUtils
     {
         public const string Host = "https://zhuanlan.zhihu.com/api";
-        public const string Init = "http://zhouqiaoqiao.com/zhuanlan.json";
-
         /// <summary>
         /// 获取专栏信息
         /// </summary>
@@ -39,6 +37,35 @@ namespace Zhuanlan.Droid.Utils
         public static string GetPost(string slug)
         {
             return Host + "/posts/" + slug;
+        }
+        /// <summary>
+        /// 获取文章所属专栏
+        /// </summary>
+        /// <param name="slug">文章名称</param>
+        /// <returns></returns>
+        public static string GetContributed(string slug)
+        {
+            return Host + "/posts/" + slug + "/contributed";
+        }
+        /// <summary>
+        /// 获取推荐专栏信息
+        /// </summary>
+        /// <param name="limit">数量限制</param>
+        /// <param name="offset">偏移量</param>
+        /// <returns></returns>
+        public static string GetRecommendationColumns(int limit, int offset)
+        {
+            return Host + "/recommendations/columns?limit=" + limit + "&offset=" + offset;
+        }
+        /// <summary>
+        /// 获取推荐文章信息
+        /// </summary>
+        /// <param name="limit">数量限制</param>
+        /// <param name="offset">偏移量</param>
+        /// <returns></returns>
+        public static string GetRecommendationPosts(int limit, int offset)
+        {
+            return Host + "/recommendations/posts?limit=" + limit + "&offset=" + offset;
         }
     }
 }

@@ -36,9 +36,6 @@ namespace Zhuanlan.Droid.Presenter
                 case Resource.Id.bb_menu_column:
                     mainView.SwitchColumn();
                     break;
-                case Resource.Id.bb_menu_like:
-                    mainView.SwitchLike();
-                    break;
                 default:
                     break;
             }
@@ -53,17 +50,9 @@ namespace Zhuanlan.Droid.Presenter
                 case Resource.Id.bb_menu_column:
                     mainView.HideColumn();
                     break;
-                case Resource.Id.bb_menu_like:
-                    mainView.HideLike();
-                    break;
                 default:
                     break;
             }
-        }
-
-        public async Task StartVersion()
-        {
-
         }
     }
 }

@@ -29,10 +29,23 @@ namespace Zhuanlan.Droid.Presenter
             {
                 var post = JsonConvert.DeserializeObject<PostModel>(await OkHttpUtils.Instance.GetAsyn(ApiUtils.GetPost(slug)));
                 postView.GetPostSuccess(post);
+                await GetContributed(slug);
             }
             catch (Exception ex)
             {
                 postView.GetPostFail(ex.Message);
+            }
+        }
+        public async Task GetContributed(string slug)
+        {
+            try
+            {
+                var columns = JsonConvert.DeserializeObject<List<ContributedModel>>(await OkHttpUtils.Instance.GetAsyn(ApiUtils.GetContributed(slug)));
+                postView.GetContributedSuccess(columns);
+            }
+            catch (Exception ex)
+            {
+                postView.GetContributedFail(ex.Message);
             }
         }
     }

@@ -45,7 +45,6 @@
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:src="@drawable/Icon"
                                 android:layout_alignParentLeft="true"
                                 android:id="@+id/llAvatar"
                                 android:layout_centerInParent="true"

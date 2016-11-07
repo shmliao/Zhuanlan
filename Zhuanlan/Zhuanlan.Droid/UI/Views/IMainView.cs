@@ -15,12 +15,8 @@ namespace Zhuanlan.Droid.UI.Views
     public interface IMainView
     {
         void SwitchHome();
-        void SwitchArticle();
         void SwitchColumn();
-        void SwitchLike();
         void HideHome();
-        void HideArticle();
         void HideColumn();
-        void HideLike();
     }
 }

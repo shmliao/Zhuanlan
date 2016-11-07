@@ -40,6 +40,10 @@ namespace Zhuanlan.Droid.Model
         /// </summary>
         public string Description { get; set; }
         /// <summary>
+        /// 徽章，即认证信息
+        /// </summary>
+        public IdentityModel Badge { get; set; }
+        /// <summary>
         /// 个性域名
         /// </summary>
         public string Slug { get; set; }

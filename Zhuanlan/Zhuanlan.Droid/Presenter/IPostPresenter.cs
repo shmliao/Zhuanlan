@@ -17,5 +17,6 @@ namespace Zhuanlan.Droid.Presenter
     public interface IPostPresenter
     {
         Task GetPost(string slug);
+        Task GetContributed(string slug);
     }
 }

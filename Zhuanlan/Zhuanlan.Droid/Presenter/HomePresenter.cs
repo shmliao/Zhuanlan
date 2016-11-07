@@ -16,24 +16,25 @@ using Zhuanlan.Droid.Utils;
 
 namespace Zhuanlan.Droid.Presenter
 {
-    public class ColumnsPresenter : IColumnsPresenter
+    public class HomePresenter : IHomePresenter
     {
         private int limit = 10;
-        private IColumnsView columnsView;
-        public ColumnsPresenter(IColumnsView columnsView)
+        private IHomeView homeView;
+        public HomePresenter(IHomeView homeView)
         {
-            this.columnsView = columnsView;
+            this.homeView = homeView;
         }
-        public async Task GetColumns(int offset)
+        public async Task GetPosts(int offset)
         {
             try
             {
-                var columns = JsonConvert.DeserializeObject<List<ColumnModel>>(await OkHttpUtils.Instance.GetAsyn(ApiUtils.GetRecommendationColumns(limit, offset)));
-                columnsView.GetColumnsSuccess(columns);
+                var body = await OkHttpUtils.Instance.GetAsyn(ApiUtils.GetRecommendationPosts(limit, offset));
+                var posts = JsonConvert.DeserializeObject<List<PostModel>>(body);
+                homeView.GetPostsSuccess(posts);
             }
             catch (Exception ex)
             {
-                columnsView.GetColumnsFail(ex.Message);
+                homeView.GetPostsFail(ex.Message);
             }
         }
     }

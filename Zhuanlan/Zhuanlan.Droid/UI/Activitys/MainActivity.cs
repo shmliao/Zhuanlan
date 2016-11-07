@@ -3,11 +3,6 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
-using Android.Support.V4.Widget;
-using Android.Support.V7.Widget;
-using Android.Support.V4.View;
-using Android.Support.Design.Widget;
-using System;
 using Zhuanlan.Droid.UI.Fragments;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
@@ -15,24 +10,23 @@ using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Droid.Presenter;
 using BottomNavigationBar;
 using BottomNavigationBar.Listeners;
+using Com.Umeng.Analytics;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
-    [Activity]
+    [Activity(MainLauncher = true, LaunchMode = Android.Content.PM.LaunchMode.SingleTask)]
     public class MainActivity : AppCompatActivity, IMainView, IOnMenuTabClickListener
     {
         private BottomBar bottomBar;
         private int lastSelecteID;//上一次选中的menuItemId
         private FragmentManager fm;
         private HomeFragment homeFragment;
-        private ArticleFragment articleFragment;
         private ColumnsFragment columnFragment;
-        private LikeFragment likeFragment;
         private IMainPresenter mainPresenter;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.Main);
             mainPresenter = new MainPresenter(this);
 
@@ -46,6 +40,10 @@ namespace Zhuanlan.Droid.UI.Activitys
 
             bottomBar.SetItems(Resource.Menu.bottombar_menu);
             bottomBar.SetOnMenuTabClickListener(this);
+
+            MobclickAgent.SetDebugMode(true);
+            MobclickAgent.OpenActivityDurationTrack(false);
+            MobclickAgent.SetScenarioType(this, MobclickAgent.EScenarioType.EUmNormal);
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -66,6 +64,16 @@ namespace Zhuanlan.Droid.UI.Activitys
         public void OnMenuTabReSelected(int menuItemId)
         {
         }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            MobclickAgent.OnResume(this);
+        }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            MobclickAgent.OnPause(this);
+        }
 
         public void SwitchHome()
         {
@@ -78,21 +86,6 @@ namespace Zhuanlan.Droid.UI.Activitys
             else
             {
                 transaction.Show(homeFragment).Commit();
-            }
-        }
-
-
-        public void SwitchArticle()
-        {
-            FragmentTransaction transaction = fm.BeginTransaction();
-            if (articleFragment == null)
-            {
-                articleFragment = new ArticleFragment();
-                transaction.Add(Resource.Id.frameContent, articleFragment).Commit();
-            }
-            else
-            {
-                transaction.Show(articleFragment).Commit();
             }
         }
 
@@ -110,19 +103,6 @@ namespace Zhuanlan.Droid.UI.Activitys
             }
         }
 
-        public void SwitchLike()
-        {
-            FragmentTransaction transaction = fm.BeginTransaction();
-            if (likeFragment == null)
-            {
-                likeFragment = new LikeFragment();
-                transaction.Add(Resource.Id.frameContent, likeFragment).Commit();
-            }
-            else
-            {
-                transaction.Show(likeFragment).Commit();
-            }
-        }
 
         public void HideHome()
         {
@@ -130,14 +110,6 @@ namespace Zhuanlan.Droid.UI.Activitys
             if (homeFragment != null)
             {
                 transaction.Hide(homeFragment).Commit();
-            }
-        }
-        public void HideArticle()
-        {
-            FragmentTransaction transaction = fm.BeginTransaction();
-            if (articleFragment != null)
-            {
-                transaction.Hide(articleFragment).Commit();
             }
         }
 
@@ -150,14 +122,6 @@ namespace Zhuanlan.Droid.UI.Activitys
             }
         }
 
-        public void HideLike()
-        {
-            FragmentTransaction transaction = fm.BeginTransaction();
-            if (likeFragment != null)
-            {
-                transaction.Hide(likeFragment).Commit();
-            }
-        }
     }
 }
 

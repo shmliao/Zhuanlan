@@ -16,10 +16,11 @@ using Java.Lang;
 using Square.Picasso;
 using Zhuanlan.Droid.UI.Widgets;
 using Zhuanlan.Droid.UI.Activitys;
+using Zhuanlan.Droid.Utils;
 
 namespace Zhuanlan.Droid.UI.Adapters
 {
-    public class ColumnsAdapter : RecyclerView.Adapter, View.IOnClickListener
+    public class HomeAdapter : RecyclerView.Adapter, View.IOnClickListener
     {
         public const int LoadingView = 0x00000111;
         public const int FooterView = 0x00000222;
@@ -31,12 +32,12 @@ namespace Zhuanlan.Droid.UI.Adapters
 
         private bool loadingMoreEnable;
 
-        public List<ColumnModel> List;
+        public List<PostModel> List;
         public IOnLoadMoreListener OnLoadMoreListener;
 
-        public ColumnsAdapter()
+        public HomeAdapter()
         {
-            List = new List<ColumnModel>();
+            List = new List<PostModel>();
         }
         public override int ItemCount
         {
@@ -89,22 +90,53 @@ namespace Zhuanlan.Droid.UI.Adapters
                     var model = List[position];
                     item.ItemView.Tag = model.Slug;
                     item.ItemView.SetOnClickListener(this);
-                    item.title.Text = model.Name;
-                    
-                    if (model.Description == null || model.Description == "")
+
+                    item.name.Text = model.Author.Name;
+                    item.title.Text = model.Title;
+
+                    if (model.Author.IsOrg)
                     {
-                        item.description.Visibility = ViewStates.Gone;
+                        item.org.Visibility = ViewStates.Visible;
+                        item.org.SetImageResource(Resource.Drawable.identity);
                     }
                     else
                     {
-                        item.description.Text = model.Description;
-                        item.description.Visibility = ViewStates.Visible;
+                        if (model.Author.Badge != null)
+                        {
+                            item.org.Visibility = ViewStates.Visible;
+                            if (model.Author.Badge.Identity != null)
+                            {
+                                item.org.SetImageResource(Resource.Drawable.identity);
+                            }
+                            else if (model.Author.Badge.Best_answerer != null)
+                            {
+                                item.org.SetImageResource(Resource.Drawable.bestanswerer);
+                            }
+                        }
+                        else
+                        {
+                            item.org.Visibility = ViewStates.Gone;
+                        }
                     }
-                    item.followersCount.Text = model.FollowersCount + " ÈË¹Ø×¢";
-                    item.postsCount.Text = " ¡¤ " + model.PostsCount + " ÎÄÕÂ";
 
-                    var avatar = model.Avatar.Template.Replace("{id}", model.Avatar.ID);
-                    avatar = avatar.Replace("{size}", "l");
+                    item.summary.Text = HtmlUtils.ReplaceHtmlTag(model.Content, 500);
+                    item.time.Text = DateTimeUtils.CommonTime(Convert.ToDateTime(model.PublishedTime));
+
+                    if (model.TitleImage == "")
+                    {
+                        item.titleImage.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        item.titleImage.Visibility = ViewStates.Visible;
+                        Picasso.With(context)
+                                    .Load(model.TitleImage)
+                                    .Placeholder(Resource.Drawable.ic_placeholder)
+                                    .Error(Resource.Drawable.ic_placeholder)
+                                   .Into(item.titleImage);
+                    }
+                    var avatar = model.Author.Avatar.Template.Replace("{id}", model.Author.Avatar.ID);
+                    avatar = avatar.Replace("{size}", "s");
                     Picasso.With(context)
                                 .Load(avatar)
                                .Transform(new CircleTransform())
@@ -126,24 +158,28 @@ namespace Zhuanlan.Droid.UI.Adapters
                 case FooterView:
                     return new FooterViewHolder(footerLayout);
                 default:
-                    return new ItemViewHolder(layoutInflater.Inflate(Resource.Layout.columns_item, parent, false));
+                    return new ItemViewHolder(layoutInflater.Inflate(Resource.Layout.home_item, parent, false));
             }
         }
         public class ItemViewHolder : RecyclerView.ViewHolder
         {
             public ImageView avatar { get; set; }
+            public TextView name { get; set; }
+            public ImageView titleImage { get; set; }
+            public ImageView org { get; set; }
             public TextView title { get; set; }
-            public TextView description { get; set; }
-            public TextView followersCount { get; set; }
-            public TextView postsCount { get; set; }
+            public TextView summary { get; set; }
+            public TextView time { get; set; }
             public ItemViewHolder(View view)
                 : base(view)
             {
                 avatar = view.FindViewById<ImageView>(Resource.Id.llAvatar);
+                name = view.FindViewById<TextView>(Resource.Id.txtName);
+                titleImage = view.FindViewById<ImageView>(Resource.Id.titleImage);
+                org = view.FindViewById<ImageView>(Resource.Id.org);
                 title = view.FindViewById<TextView>(Resource.Id.txtTitle);
-                description = view.FindViewById<TextView>(Resource.Id.txtDescription);
-                followersCount = view.FindViewById<TextView>(Resource.Id.txtFollowersCount);
-                postsCount = view.FindViewById<TextView>(Resource.Id.txtPostsCount);
+                summary = view.FindViewById<TextView>(Resource.Id.txtSummary);
+                time = view.FindViewById<TextView>(Resource.Id.txtTime);
             }
         }
         public class LoadingViewHolder : RecyclerView.ViewHolder
@@ -160,7 +196,7 @@ namespace Zhuanlan.Droid.UI.Adapters
             {
             }
         }
-        public void NewData(List<ColumnModel> list)
+        public void NewData(List<PostModel> list)
         {
             this.List = list;
             if (loadMoreFailedView != null)
@@ -174,12 +210,12 @@ namespace Zhuanlan.Droid.UI.Adapters
             List.RemoveAt(position);
             NotifyItemRemoved(position);
         }
-        public void Add(int position, ColumnModel item)
+        public void Add(int position, PostModel item)
         {
             List.Insert(position, item);
             NotifyItemInserted(position);
         }
-        public void AddData(List<ColumnModel> newList)
+        public void AddData(List<PostModel> newList)
         {
             loadingMoreEnable = false;
             this.List.AddRange(newList);
@@ -258,7 +294,7 @@ namespace Zhuanlan.Droid.UI.Adapters
         {
             if (v.Tag != null)
             {
-                ColumnActivity.Start(context, v.Tag.ToString());
+                PostActivity.Start(context, v.Tag.ToString());
             }
         }
     }

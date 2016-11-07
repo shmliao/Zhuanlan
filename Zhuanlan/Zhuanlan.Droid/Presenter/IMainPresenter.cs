@@ -17,6 +17,5 @@ namespace Zhuanlan.Droid.Presenter
     {
         void SwitchNavigationBar(int id);
         void HideNavigationBar(int id);
-        Task StartVersion();
     }
 }

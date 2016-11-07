@@ -21,6 +21,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Zhuanlan.Droid.UI.Adapters;
 using Zhuanlan.Droid.UI.Listeners;
+using Com.Umeng.Analytics;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
@@ -51,7 +52,6 @@ namespace Zhuanlan.Droid.UI.Activitys
         {
             base.OnCreate(savedInstanceState);
             slug = Intent.GetStringExtra("slug");
-            //slug = "haobama";
 
             handler = new Handler();
             columnPresenter = new ColumnPresenter(this);
@@ -91,6 +91,16 @@ namespace Zhuanlan.Droid.UI.Activitys
                 OnRefresh();
             });
         }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            MobclickAgent.OnResume(this);
+        }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            MobclickAgent.OnPause(this);
+        }
         public void OnClick(View v)
         {
             this.Finish();
@@ -123,7 +133,7 @@ namespace Zhuanlan.Droid.UI.Activitys
                 toolbar.Title = column.Name;
 
                 txtName.Text = column.Name;
-
+                
                 if (column.Description == null || column.Description == "")
                 {
                     txtDescription.Visibility = ViewStates.Gone;
@@ -135,14 +145,14 @@ namespace Zhuanlan.Droid.UI.Activitys
                 }
                 txtFollowersCount.Text = column.FollowersCount + " ÈË¹Ø×¢";
                 txtPostsCount.Text = " ¡¤ " + column.PostsCount + " ÎÄÕÂ";
-
+                
                 var avatar = column.Avatar.Template.Replace("{id}", column.Avatar.ID);
                 avatar = avatar.Replace("{size}", "l");
                 Picasso.With(this)
                             .Load(avatar)
                            .Transform(new CircleTransform())
-                           .Placeholder(Resource.Drawable.ic_image_placeholder)
-                           .Error(Resource.Drawable.ic_image_placeholder)
+                           .Placeholder(Resource.Drawable.ic_placeholder_radius)
+                           .Error(Resource.Drawable.ic_placeholder_radius)
                            .Into(llAvatar);
             });
         }

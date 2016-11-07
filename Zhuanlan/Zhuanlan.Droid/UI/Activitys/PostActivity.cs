@@ -21,10 +21,12 @@ using Android.Graphics;
 using Android.Webkit;
 using Zhuanlan.Droid.Utils;
 using Android.Support.Design.Widget;
+using Android.Util;
+using Com.Umeng.Analytics;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
-    [Activity(MainLauncher = true, Label = "")]
+    [Activity(Label = "")]
     public class PostActivity : AppCompatActivity, View.IOnClickListener, IPostView, SwipeRefreshLayout.IOnRefreshListener, ViewTreeObserver.IOnScrollChangedListener, AppBarLayout.IOnOffsetChangedListener
     {
         private string slug;
@@ -32,12 +34,16 @@ namespace Zhuanlan.Droid.UI.Activitys
         private IPostPresenter postPresenter;
 
         private Toolbar toolbar;
+        private CoordinatorLayout coordinatorLayout;
         private CollapsingToolbarLayout collapsingToolbar;
         private AppBarLayout appbar;
         private SwipeRefreshLayout swipeRefreshLayout;
         private NestedScrollView scrollView;
+        private TextView toolbarTitle;
         private ImageView titleImage;
         private ImageView imgAvatar;
+        private ImageView org;
+        private TextView txtColumnName;
         private TextView txtAuthor;
         private TextView txtTitle;
         private TextView txtBio;
@@ -55,7 +61,7 @@ namespace Zhuanlan.Droid.UI.Activitys
         {
             base.OnCreate(savedInstanceState);
             slug = Intent.GetStringExtra("slug");
-            slug = "19862126";
+            //slug = "22921645";
             handler = new Handler();
             postPresenter = new PostPresenter(this);
             SetContentView(Resource.Layout.post);
@@ -67,6 +73,7 @@ namespace Zhuanlan.Droid.UI.Activitys
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             toolbar.SetNavigationOnClickListener(this);
 
+            coordinatorLayout = FindViewById<CoordinatorLayout>(Resource.Id.main_content);
             collapsingToolbar = FindViewById<CollapsingToolbarLayout>(Resource.Id.collapsingtoolbar);
 
             appbar = FindViewById<AppBarLayout>(Resource.Id.appbar);
@@ -77,8 +84,11 @@ namespace Zhuanlan.Droid.UI.Activitys
             scrollView = FindViewById<NestedScrollView>(Resource.Id.scrollView);
             scrollView.ViewTreeObserver.AddOnScrollChangedListener(this);
 
+            toolbarTitle = FindViewById<TextView>(Resource.Id.toolbarTitle);
             titleImage = FindViewById<ImageView>(Resource.Id.titleImage);
             imgAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
+            org = FindViewById<ImageView>(Resource.Id.org);
+            txtColumnName = FindViewById<TextView>(Resource.Id.txtColumnName);
             txtAuthor = FindViewById<TextView>(Resource.Id.txtAuthor);
             txtTitle = FindViewById<TextView>(Resource.Id.txtTitle);
             txtBio = FindViewById<TextView>(Resource.Id.txtBio);
@@ -90,7 +100,16 @@ namespace Zhuanlan.Droid.UI.Activitys
                 swipeRefreshLayout.Refreshing = true;
                 OnRefresh();
             });
-
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            MobclickAgent.OnResume(this);
+        }
+        protected override void OnPause()
+        {
+            base.OnPause();
+            MobclickAgent.OnPause(this);
         }
         public void OnClick(View v)
         {
@@ -123,6 +142,31 @@ namespace Zhuanlan.Droid.UI.Activitys
                 }
                 title = post.Title;
                 txtAuthor.Text = post.Author.Name;
+
+                if (post.Author.IsOrg)
+                {
+                    org.Visibility = ViewStates.Visible;
+                    org.SetImageResource(Resource.Drawable.identity);
+                }
+                else
+                {
+                    if (post.Author.Badge != null)
+                    {
+                        org.Visibility = ViewStates.Visible;
+                        if (post.Author.Badge.Identity != null)
+                        {
+                            org.SetImageResource(Resource.Drawable.identity);
+                        }
+                        else if (post.Author.Badge.Best_answerer != null)
+                        {
+                            org.SetImageResource(Resource.Drawable.bestanswerer);
+                        }
+                    }
+                    else
+                    {
+                        org.Visibility = ViewStates.Gone;
+                    }
+                }
                 txtBio.Text = post.Author.Bio;
                 var content = "<h1>" + post.Title + "</h1>" + post.Content;
                 postContent.Settings.CacheMode = CacheModes.CacheElseNetwork;
@@ -136,16 +180,32 @@ namespace Zhuanlan.Droid.UI.Activitys
                 }
                 else
                 {
-                    
+                    appbar.LayoutParameters = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, toolbar.Height);
+                    toolbarTitle.Text = title;
                 }
                 var avatar = post.Author.Avatar.Template.Replace("{id}", post.Author.Avatar.ID);
                 avatar = avatar.Replace("{size}", "l");
                 Picasso.With(this)
                             .Load(avatar)
                            .Transform(new CircleTransform())
-                           .Placeholder(Resource.Drawable.ic_image_placeholder)
-                           .Error(Resource.Drawable.ic_image_placeholder)
+                           .Placeholder(Resource.Drawable.ic_placeholder_radius)
+                           .Error(Resource.Drawable.ic_placeholder_radius)
                            .Into(imgAvatar);
+            });
+        }
+        public void GetContributedFail(string msg)
+        {
+
+        }
+        public void GetContributedSuccess(List<ContributedModel> lists)
+        {
+            handler.Post(() =>
+            {
+                if (lists.Count > 0)
+                {
+                    var data = lists[0];
+                    txtColumnName.Text = data.SourceColumn.Name;
+                }
             });
         }
 
@@ -161,14 +221,14 @@ namespace Zhuanlan.Droid.UI.Activitys
                 if (CollapsingState != CollapsingToolbarLayoutState.Expanded)
                 {
                     CollapsingState = CollapsingToolbarLayoutState.Expanded;//修改状态标记为展开
-                    collapsingToolbar.SetTitle("");//设置title不显示
+                    toolbarTitle.Text = "";//设置title不显示
                 }
             }
             else if (Math.Abs(verticalOffset) >= layout.TotalScrollRange)
             {
                 if (CollapsingState != CollapsingToolbarLayoutState.Collapsed)
                 {
-                    collapsingToolbar.SetTitle(title);//设置title不显示
+                    toolbarTitle.Text = title;//设置title显示
                     CollapsingState = CollapsingToolbarLayoutState.Collapsed;//修改状态标记为折叠
                 }
             }
@@ -177,7 +237,7 @@ namespace Zhuanlan.Droid.UI.Activitys
                 if (CollapsingState != CollapsingToolbarLayoutState.Internediate)
                 {
                     CollapsingState = CollapsingToolbarLayoutState.Internediate;//修改状态标记为中间
-                    collapsingToolbar.SetTitle("");//设置title不显示
+                    toolbarTitle.Text = "";//设置title不显示
                 }
             }
         }

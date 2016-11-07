@@ -31,7 +31,6 @@ namespace Zhuanlan.Droid.UI.Fragments
         private RecyclerView recyclerView;
         private ColumnsAdapter adapter;
         private View notLoadingView;
-        private int limit = 5;
         private int offset = 0;
         private IColumnsPresenter columnsPresenter;
         private Realm realm;
@@ -41,7 +40,6 @@ namespace Zhuanlan.Droid.UI.Fragments
         {
             base.OnCreate(savedInstanceState);
             handler = new Handler();
-            realm = Realm.GetInstance();
             columnsPresenter = new ColumnsPresenter(this);
         }
 
@@ -68,59 +66,16 @@ namespace Zhuanlan.Droid.UI.Fragments
                 OnRefresh();
             });
         }
-        private List<ColumnModel> GetColumns()
-        {
-            var columns = realm.All<ColumnModel>().ToList();
-            var list = new List<ColumnModel>();
-            var random = new Random();
-            var index = -1;
-
-            while (list.Count <= 10 && offsetList.Count < columns.Count)
-            {
-                do
-                {
-                    index = random.Next(1, columns.Count);
-                }
-                while (offsetList.Where(o => o == index).FirstOrDefault() > 0);
-                offsetList.Add(index);
-                list.Add(columns[index - 1]);
-            }
-            return list;
-        }
-
         public async void OnLoadMoreRequested()
         {
-            var lists = GetColumns();
-            await columnsPresenter.GetColumns(lists);
+            await columnsPresenter.GetColumns(offset);
         }
 
         public async void OnRefresh()
         {
-            offsetList.Clear();
             if (offset > 0)
                 offset = 0;
-            var lists = GetColumns();
-            if (lists.Count > 0)
-            {
-                await columnsPresenter.GetColumns(lists);
-            }
-            else
-            {
-                handler.Post(() =>
-                {
-                    if (swipeRefreshLayout.Refreshing)
-                    {
-                        swipeRefreshLayout.Refreshing = false;
-                    }
-                    adapter.LoadComplete();
-                    if (notLoadingView == null)
-                    {
-                        notLoadingView = GetLayoutInflater(null).Inflate(Resource.Layout.recyclerview_notloading, (ViewGroup)recyclerView.Parent, false);
-                    }
-                    adapter.RemoveAllFooterView();
-                    adapter.AddFooterView(notLoadingView);
-                });
-            }
+            await columnsPresenter.GetColumns(offset);
         }
 
         public void GetColumnsFail(string msg)
@@ -144,26 +99,43 @@ namespace Zhuanlan.Droid.UI.Fragments
 
         public void GetColumnsSuccess(List<ColumnModel> lists)
         {
-            if (offset == 0)
+            if (lists.Count > 0)
             {
-                handler.Post(() =>
+                if (offset == 0)
                 {
-                    if (swipeRefreshLayout.Refreshing)
+                    handler.Post(() =>
                     {
-                        swipeRefreshLayout.Refreshing = false;
-                    }
-                    adapter.NewData(lists);
-                    adapter.RemoveAllFooterView();
-                    offset += lists.Count;
-                });
+                        if (swipeRefreshLayout.Refreshing)
+                        {
+                            swipeRefreshLayout.Refreshing = false;
+                        }
+                        adapter.NewData(lists);
+                        adapter.RemoveAllFooterView();
+                        offset += lists.Count;
+                    });
+                }
+                else
+                {
+                    handler.Post(() =>
+                    {
+                        adapter.AddData(lists);
+                        offset += lists.Count;
+                    });
+                }
             }
             else
             {
-                handler.Post(() =>
+                if (swipeRefreshLayout.Refreshing)
                 {
-                    adapter.AddData(lists);
-                    offset += lists.Count;
-                });
+                    swipeRefreshLayout.Refreshing = false;
+                }
+                adapter.LoadComplete();
+                if (notLoadingView == null)
+                {
+                    notLoadingView = GetLayoutInflater(null).Inflate(Resource.Layout.recyclerview_notloading, (ViewGroup)recyclerView.Parent, false);
+                }
+                adapter.RemoveAllFooterView();
+                adapter.AddFooterView(notLoadingView);
             }
         }
     }

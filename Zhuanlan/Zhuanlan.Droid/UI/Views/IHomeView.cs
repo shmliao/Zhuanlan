@@ -9,13 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using System.Threading.Tasks;
 using Zhuanlan.Droid.Model;
 
-namespace Zhuanlan.Droid.Presenter
+namespace Zhuanlan.Droid.UI.Views
 {
-    public interface IColumnsPresenter
+    public interface IHomeView
     {
-        Task GetColumns(int offset);
+       void GetPostsFail(string msg);
+        void GetPostsSuccess(List<PostModel> lists);
     }
 }

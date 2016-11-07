@@ -19,7 +19,7 @@ namespace Zhuanlan.Droid.Presenter
     public class ColumnPresenter : IColumnPresenter
     {
         private int limit = 10;
-        IColumnView columnView;
+        private IColumnView columnView;
         public ColumnPresenter(IColumnView columnView)
         {
             this.columnView = columnView;
@@ -46,7 +46,7 @@ namespace Zhuanlan.Droid.Presenter
             }
             catch (Exception ex)
             {
-                columnView.GetColumnFail(ex.Message);
+                columnView.GetPostsFail(ex.Message);
             }
         }
     }
