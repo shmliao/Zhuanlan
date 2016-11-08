@@ -9,11 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class ColumnModel : RealmObject
+    public class ColumnModel 
     {
         /// <summary>
         /// ¹Ø×¢Êý
@@ -77,7 +76,6 @@ namespace Zhuanlan.Droid.Model
         /// <summary>
         /// Ãû³Æ
         /// </summary>
-        [PrimaryKey]
         public string Name { get; set; }
         /// <summary>
         /// Url

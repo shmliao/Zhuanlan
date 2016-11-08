@@ -19,8 +19,6 @@ using Zhuanlan.Droid.Utils;
 using Zhuanlan.Droid.Model;
 using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Droid.Presenter;
-using Realms;
-using System.Collections;
 
 namespace Zhuanlan.Droid.UI.Fragments
 {
@@ -30,11 +28,8 @@ namespace Zhuanlan.Droid.UI.Fragments
         private SwipeRefreshLayout swipeRefreshLayout;
         private RecyclerView recyclerView;
         private HomeAdapter adapter;
-        private View notLoadingView;
-        private int limit = 5;
         private int offset = 0;
         private IHomePresenter homePresenter;
-        private Realm realm;
         private List<int> offsetList = new List<int>();
 
         public override void OnCreate(Bundle savedInstanceState)

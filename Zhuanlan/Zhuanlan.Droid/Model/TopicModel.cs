@@ -9,14 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
     /// <summary>
     /// 专栏话题信息
     /// </summary>
-    public class TopicModel : RealmObject
+    public class TopicModel
     {
         /// <summary>
         /// 话题在知乎官网中的地址

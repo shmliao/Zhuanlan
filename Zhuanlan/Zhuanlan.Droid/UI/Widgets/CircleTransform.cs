@@ -56,7 +56,7 @@ namespace Zhuanlan.Droid.UI.Widgets
                 squaredBitmap.Recycle();
                 return bitmap;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }

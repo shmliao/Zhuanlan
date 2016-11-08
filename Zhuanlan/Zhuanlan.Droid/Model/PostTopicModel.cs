@@ -9,14 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
     /// <summary>
     /// 文章话题信息
     /// </summary>
-    public class PostTopicModel : RealmObject
+    public class PostTopicModel
     {
         /// <summary>
         /// 该话题下文章数

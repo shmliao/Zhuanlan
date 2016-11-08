@@ -3528,40 +3528,28 @@ namespace Zhuanlan.Droid
 			public const int ic_arrow_back_white_24dp = 2130837583;
 			
 			// aapt resource value: 0x7f020050
-			public const int ic_favorite_border_white_24dp = 2130837584;
+			public const int ic_home_white_24dp = 2130837584;
 			
 			// aapt resource value: 0x7f020051
-			public const int ic_home_white_24dp = 2130837585;
+			public const int ic_placeholder = 2130837585;
 			
 			// aapt resource value: 0x7f020052
-			public const int ic_perm_identity_white_18dp = 2130837586;
+			public const int ic_placeholder_radius = 2130837586;
 			
 			// aapt resource value: 0x7f020053
-			public const int ic_placeholder = 2130837587;
+			public const int ic_subject_white_24dp = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int ic_placeholder_radius = 2130837588;
+			public const int Icon = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int ic_subject_white_24dp = 2130837589;
+			public const int identity = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int ic_visibility_white_24dp = 2130837590;
+			public const int noise = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int Icon = 2130837591;
-			
-			// aapt resource value: 0x7f020058
-			public const int identity = 2130837592;
-			
-			// aapt resource value: 0x7f020059
-			public const int noise = 2130837593;
-			
-			// aapt resource value: 0x7f02005b
-			public const int notification_template_icon_bg = 2130837595;
-			
-			// aapt resource value: 0x7f02005a
-			public const int splash = 2130837594;
+			public const int notification_template_icon_bg = 2130837591;
 			
 			static Drawable()
 			{
@@ -3654,11 +3642,11 @@ namespace Zhuanlan.Droid
 			// aapt resource value: 0x7f060071
 			public const int bb_bottom_bar_title = 2131099761;
 			
-			// aapt resource value: 0x7f0600a7
-			public const int bb_menu_column = 2131099815;
-			
 			// aapt resource value: 0x7f0600a6
-			public const int bb_menu_home = 2131099814;
+			public const int bb_menu_column = 2131099814;
+			
+			// aapt resource value: 0x7f0600a5
+			public const int bb_menu_home = 2131099813;
 			
 			// aapt resource value: 0x7f06006f
 			public const int bb_tablet_right_border = 2131099759;
@@ -3791,9 +3779,6 @@ namespace Zhuanlan.Droid
 			
 			// aapt resource value: 0x7f06003f
 			public const int image = 2131099711;
-			
-			// aapt resource value: 0x7f0600a5
-			public const int imageView1 = 2131099813;
 			
 			// aapt resource value: 0x7f060099
 			public const int info = 2131099801;
@@ -4320,13 +4305,7 @@ namespace Zhuanlan.Droid
 			public const int select_dialog_singlechoice_material = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int Splash = 2130903104;
-			
-			// aapt resource value: 0x7f030041
-			public const int support_simple_spinner_dropdown_item = 2130903105;
-			
-			// aapt resource value: 0x7f030042
-			public const int test = 2130903106;
+			public const int support_simple_spinner_dropdown_item = 2130903104;
 			
 			static Layout()
 			{

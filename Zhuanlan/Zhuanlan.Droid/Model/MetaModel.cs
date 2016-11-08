@@ -9,11 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class MetaModel : RealmObject
+    public class MetaModel
     {
         public PostModel Previous { get; set; }
         public PostModel Next { get; set; }

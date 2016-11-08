@@ -9,11 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class LinkModel : RealmObject
+    public class LinkModel
     {
         public string Comments { get; set; }
     }

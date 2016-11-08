@@ -19,8 +19,6 @@ using Zhuanlan.Droid.Utils;
 using Zhuanlan.Droid.Model;
 using Zhuanlan.Droid.UI.Views;
 using Zhuanlan.Droid.Presenter;
-using Realms;
-using System.Collections;
 
 namespace Zhuanlan.Droid.UI.Fragments
 {
@@ -33,7 +31,6 @@ namespace Zhuanlan.Droid.UI.Fragments
         private View notLoadingView;
         private int offset = 0;
         private IColumnsPresenter columnsPresenter;
-        private Realm realm;
         private List<int> offsetList = new List<int>();
 
         public override void OnCreate(Bundle savedInstanceState)

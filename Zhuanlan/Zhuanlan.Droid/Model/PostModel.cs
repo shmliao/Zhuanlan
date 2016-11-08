@@ -9,11 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class PostModel : RealmObject
+    public class PostModel
     {
         /// <summary>
         /// 文章标题大图是否全屏

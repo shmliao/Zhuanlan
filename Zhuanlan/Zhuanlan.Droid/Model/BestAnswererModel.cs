@@ -9,11 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Realms;
 
 namespace Zhuanlan.Droid.Model
 {
-    public class BestAnswererModel : RealmObject
+    public class BestAnswererModel 
     {
         /// <summary>
         /// ª∞Ã‚
