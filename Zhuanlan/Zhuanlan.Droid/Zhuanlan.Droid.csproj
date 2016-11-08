@@ -89,6 +89,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="UMeng.Droid.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UMeng\UMeng.Droid.Analytics\bin\Debug\UMeng.Droid.Analytics.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.23.4.0\lib\MonoAndroid403\Xamarin.Android.Support.Animated.Vector.Drawable.dll</HintPath>
       <Private>True</Private>
@@ -245,12 +249,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\identity.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\bestanswerer.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_placeholder.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UMeng.Droid.Analytics\UMeng.Droid.Analytics.csproj">
-      <Project>{fcfe0c20-1521-4c2b-8114-501c804b77af}</Project>
-      <Name>UMeng.Droid.Analytics</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
