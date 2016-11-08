@@ -1,5 +1,5 @@
-# 知乎日报APP
-第三方知乎专栏APP,内容来源于知乎官方,内容版权归知乎([Zhihu.inc](https://www.zhihu.com/))所有.
+# 知乎专栏
+第三方知乎专栏专栏APP,内容来源于知乎官方,内容版权归知乎([Zhihu.inc](https://www.zhihu.com/))所有.
 
 # 安卓版
 [下载](https://github.com/i-1213/Zhuanlan/tree/master/Zhuanlan/com.zhuanlan.android.apk)
