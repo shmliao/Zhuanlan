@@ -5,11 +5,11 @@
 [下载](https://github.com/i-1213/Zhuanlan/tree/master/Zhuanlan/com.zhuanlan.android.apk)
 
 # 截图
-![Zhuanlan](https://github.com/i-1213/Zhuanlan/tree/master/Zhuanlan/screenshots/zhuanlan.droid1.png)
-![Zhuanlan](https://github.com/i-1213/RiBao/blob/master/RiBao/screenshots/zhuanlan.droid2.png)
-![Zhuanlan](https://github.com/i-1213/RiBao/blob/master/RiBao/screenshots/zhuanlan.droid3.png)
-![Zhuanlan](https://github.com/i-1213/RiBao/blob/master/RiBao/screenshots/zhuanlan.droid4.png)
-![Zhuanlan](https://github.com/i-1213/RiBao/blob/master/RiBao/screenshots/zhuanlan.droid5.png)
+![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid1.png)
+![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid2.png)
+![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid3.png)
+![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid4.png)
+![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid5.png)
 
 # 依赖
 - [Square.OkHttp](https://github.com/mattleibow/square-bindings)
