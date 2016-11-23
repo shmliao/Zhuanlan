@@ -5,7 +5,7 @@
 [应用宝下载](http://android.myapp.com/myapp/detail.htm?apkName=com.zhuanlan.android)
 
 # 截图
-![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid1.png)
+![Zhuanlan](http://pp.myapp.com/ma_pic2/0/shot_42382850_1_1478656819/550)
 ![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid2.png)
 ![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid3.png)
 ![Zhuanlan](https://github.com/i-1213/Zhuanlan/blob/master/Zhuanlan/screenshots/zhuanlan.droid4.png)
