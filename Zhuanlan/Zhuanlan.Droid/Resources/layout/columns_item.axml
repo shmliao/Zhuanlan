@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="10dp">
-        <ImageView
-            android:layout_width="50dp"
+      <FFImageLoading.Views.ImageViewAsync
+          android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/Icon"
             android:layout_alignParentLeft="true"

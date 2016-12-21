@@ -67,6 +67,18 @@
       <HintPath>..\packages\BottomNavigationBar.1.4.0.2\lib\MonoAndroid403\BottomNavigationBar.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FFImageLoading.Transformations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Transformations.2.2.5\lib\MonoAndroid10\FFImageLoading.Transformations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -249,6 +261,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\identity.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\bestanswerer.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_placeholder.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\ic_placeholder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

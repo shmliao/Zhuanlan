@@ -77,8 +77,6 @@ namespace Zhuanlan.Droid.UI.Fragments
 
         public void GetColumnsFail(string msg)
         {
-            handler.Post(() =>
-            {
                 if (offset > 0)
                 {
                     adapter.ShowLoadMoreFailedView();
@@ -91,7 +89,6 @@ namespace Zhuanlan.Droid.UI.Fragments
                     }
                     Toast.MakeText(this.Activity, msg, ToastLength.Short).Show();
                 }
-            });
         }
 
         public void GetColumnsSuccess(List<ColumnModel> lists)
@@ -100,8 +97,6 @@ namespace Zhuanlan.Droid.UI.Fragments
             {
                 if (offset == 0)
                 {
-                    handler.Post(() =>
-                    {
                         if (swipeRefreshLayout.Refreshing)
                         {
                             swipeRefreshLayout.Refreshing = false;
@@ -109,7 +104,6 @@ namespace Zhuanlan.Droid.UI.Fragments
                         adapter.NewData(lists);
                         adapter.RemoveAllFooterView();
                         offset += lists.Count;
-                    });
                 }
                 else
                 {

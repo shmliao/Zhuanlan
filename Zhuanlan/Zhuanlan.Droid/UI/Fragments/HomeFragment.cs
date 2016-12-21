@@ -94,24 +94,18 @@ namespace Zhuanlan.Droid.UI.Fragments
         {
             if (offset == 0)
             {
-                handler.Post(() =>
+                if (swipeRefreshLayout.Refreshing)
                 {
-                    if (swipeRefreshLayout.Refreshing)
-                    {
-                        swipeRefreshLayout.Refreshing = false;
-                    }
-                    adapter.NewData(lists);
-                    adapter.RemoveAllFooterView();
-                    offset += lists.Count;
-                });
+                    swipeRefreshLayout.Refreshing = false;
+                }
+                adapter.NewData(lists);
+                adapter.RemoveAllFooterView();
+                offset += lists.Count;
             }
             else
             {
-                handler.Post(() =>
-                {
-                    adapter.AddData(lists);
-                    offset += lists.Count;
-                });
+                adapter.AddData(lists);
+                offset += lists.Count;
             }
         }
     }

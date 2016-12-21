@@ -22,6 +22,10 @@ using Android.Support.V7.Widget;
 using Zhuanlan.Droid.UI.Adapters;
 using Zhuanlan.Droid.UI.Listeners;
 using Com.Umeng.Analytics;
+using FFImageLoading.Views;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Work;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
@@ -35,7 +39,7 @@ namespace Zhuanlan.Droid.UI.Activitys
         private SwipeRefreshLayout swipeRefreshLayout;
         private RecyclerView recyclerView;
         private PostsAdapter adapter;
-        public ImageView llAvatar;
+        public ImageViewAsync llAvatar;
         public TextView txtName;
         public TextView txtDescription;
         public TextView txtFollowersCount;
@@ -74,7 +78,7 @@ namespace Zhuanlan.Droid.UI.Activitys
             recyclerView.HasFixedSize = true;
             recyclerView.NestedScrollingEnabled = false;
 
-            llAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
+            llAvatar = FindViewById<ImageViewAsync>(Resource.Id.llAvatar);
             txtName = FindViewById<TextView>(Resource.Id.txtName);
             txtDescription = FindViewById<TextView>(Resource.Id.txtDescription);
             txtFollowersCount = FindViewById<TextView>(Resource.Id.txtFollowersCount);
@@ -112,92 +116,85 @@ namespace Zhuanlan.Droid.UI.Activitys
 
         public void GetColumnFail(string msg)
         {
-            handler.Post(() =>
+            if (swipeRefreshLayout.Refreshing)
             {
-                if (swipeRefreshLayout.Refreshing)
-                {
-                    swipeRefreshLayout.Refreshing = false;
-                }
-                Toast.MakeText(this, msg, ToastLength.Short).Show();
-            });
+                swipeRefreshLayout.Refreshing = false;
+            }
+            Toast.MakeText(this, msg, ToastLength.Short).Show();
         }
 
-        public void GetColumnSuccess(ColumnModel column)
+        public async void GetColumnSuccess(ColumnModel column)
         {
-            handler.Post(() =>
+            if (swipeRefreshLayout.Refreshing)
             {
-                if (swipeRefreshLayout.Refreshing)
-                {
-                    swipeRefreshLayout.Refreshing = false;
-                }
-                toolbar.Title = column.Name;
+                swipeRefreshLayout.Refreshing = false;
+            }
+            toolbar.Title = column.Name;
 
-                txtName.Text = column.Name;
-                
-                if (column.Description == null || column.Description == "")
-                {
-                    txtDescription.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    txtDescription.Text = column.Description;
-                    txtDescription.Visibility = ViewStates.Visible;
-                }
-                txtFollowersCount.Text = column.FollowersCount + " 人关注";
-                txtPostsCount.Text = " · " + column.PostsCount + " 文章";
-                
-                var avatar = column.Avatar.Template.Replace("{id}", column.Avatar.ID);
-                avatar = avatar.Replace("{size}", "l");
-                Picasso.With(this)
-                            .Load(avatar)
-                           .Transform(new CircleTransform())
-                           .Placeholder(Resource.Drawable.ic_placeholder_radius)
-                           .Error(Resource.Drawable.ic_placeholder_radius)
-                           .Into(llAvatar);
-            });
+            txtName.Text = column.Name;
+
+            if (column.Description == null || column.Description == "")
+            {
+                txtDescription.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                txtDescription.Text = column.Description;
+                txtDescription.Visibility = ViewStates.Visible;
+            }
+            txtFollowersCount.Text = column.FollowersCount + " 人关注";
+            txtPostsCount.Text = " · " + column.PostsCount + " 文章";
+
+            var avatar = column.Avatar.Template.Replace("{id}", column.Avatar.ID);
+            avatar = avatar.Replace("{size}", "l");
+            try
+            {
+                await ImageService.Instance.LoadUrl(avatar)
+                      .Retry(3, 200)
+                      .DownSample(80, 80)
+                      .Transform(new CircleTransformation())
+                      .LoadingPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                      .ErrorPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                      .IntoAsync(llAvatar);
+            }
+            catch (System.Exception)
+            {
+
+            }
         }
 
         public void GetPostsFail(string msg)
         {
-            handler.Post(() =>
+            if (swipeRefreshLayout.Refreshing)
             {
-                if (swipeRefreshLayout.Refreshing)
-                {
-                    swipeRefreshLayout.Refreshing = false;
-                }
-                Toast.MakeText(this, msg, ToastLength.Short).Show();
-            });
+                swipeRefreshLayout.Refreshing = false;
+            }
+            Toast.MakeText(this, msg, ToastLength.Short).Show();
         }
         public void GetPostsSuccess(List<PostModel> lists)
         {
             if (offset == 0)
             {
-                handler.Post(() =>
+                if (swipeRefreshLayout.Refreshing)
                 {
-                    if (swipeRefreshLayout.Refreshing)
-                    {
-                        swipeRefreshLayout.Refreshing = false;
-                    }
-                    if (lists.Count > 0)
-                    {
-                        txtEmpty.Visibility = ViewStates.Gone;
-                        adapter.NewData(lists);
-                        adapter.RemoveAllFooterView();
-                        offset += lists.Count;
-                    }
-                    else
-                    {
-                        txtEmpty.Visibility = ViewStates.Visible;
-                    }
-                });
+                    swipeRefreshLayout.Refreshing = false;
+                }
+                if (lists.Count > 0)
+                {
+                    txtEmpty.Visibility = ViewStates.Gone;
+                    adapter.NewData(lists);
+                    adapter.RemoveAllFooterView();
+                    offset += lists.Count;
+                }
+                else
+                {
+                    txtEmpty.Visibility = ViewStates.Visible;
+                }
             }
             else
             {
-                handler.Post(() =>
-                {
-                    adapter.AddData(lists);
-                    offset += lists.Count;
-                });
+                adapter.AddData(lists);
+                offset += lists.Count;
             }
         }
 

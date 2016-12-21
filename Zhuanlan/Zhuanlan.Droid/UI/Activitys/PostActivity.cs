@@ -23,6 +23,10 @@ using Zhuanlan.Droid.Utils;
 using Android.Support.Design.Widget;
 using Android.Util;
 using Com.Umeng.Analytics;
+using FFImageLoading.Views;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Work;
 
 namespace Zhuanlan.Droid.UI.Activitys
 {
@@ -41,7 +45,7 @@ namespace Zhuanlan.Droid.UI.Activitys
         private NestedScrollView scrollView;
         private TextView toolbarTitle;
         private ImageView titleImage;
-        private ImageView imgAvatar;
+        private ImageViewAsync imgAvatar;
         private ImageView org;
         private TextView txtColumnName;
         private TextView txtAuthor;
@@ -86,7 +90,7 @@ namespace Zhuanlan.Droid.UI.Activitys
 
             toolbarTitle = FindViewById<TextView>(Resource.Id.toolbarTitle);
             titleImage = FindViewById<ImageView>(Resource.Id.titleImage);
-            imgAvatar = FindViewById<ImageView>(Resource.Id.llAvatar);
+            imgAvatar = FindViewById<ImageViewAsync>(Resource.Id.llAvatar);
             org = FindViewById<ImageView>(Resource.Id.org);
             txtColumnName = FindViewById<TextView>(Resource.Id.txtColumnName);
             txtAuthor = FindViewById<TextView>(Resource.Id.txtAuthor);
@@ -122,76 +126,78 @@ namespace Zhuanlan.Droid.UI.Activitys
 
         public void GetPostFail(string msg)
         {
-            handler.Post(() =>
-            {
                 if (swipeRefreshLayout.Refreshing)
                 {
                     swipeRefreshLayout.Refreshing = false;
                 }
                 Toast.MakeText(this, msg, ToastLength.Short).Show();
-            });
         }
 
-        public void GetPostSuccess(PostModel post)
+        public async void GetPostSuccess(PostModel post)
         {
-            handler.Post(() =>
+            if (swipeRefreshLayout.Refreshing)
             {
-                if (swipeRefreshLayout.Refreshing)
-                {
-                    swipeRefreshLayout.Refreshing = false;
-                }
-                title = post.Title;
-                txtAuthor.Text = post.Author.Name;
+                swipeRefreshLayout.Refreshing = false;
+            }
+            title = post.Title;
+            txtAuthor.Text = post.Author.Name;
 
-                if (post.Author.IsOrg)
+            if (post.Author.IsOrg)
+            {
+                org.Visibility = ViewStates.Visible;
+                org.SetImageResource(Resource.Drawable.identity);
+            }
+            else
+            {
+                if (post.Author.Badge != null)
                 {
                     org.Visibility = ViewStates.Visible;
-                    org.SetImageResource(Resource.Drawable.identity);
+                    if (post.Author.Badge.Identity != null)
+                    {
+                        org.SetImageResource(Resource.Drawable.identity);
+                    }
+                    else if (post.Author.Badge.Best_answerer != null)
+                    {
+                        org.SetImageResource(Resource.Drawable.bestanswerer);
+                    }
                 }
                 else
                 {
-                    if (post.Author.Badge != null)
-                    {
-                        org.Visibility = ViewStates.Visible;
-                        if (post.Author.Badge.Identity != null)
-                        {
-                            org.SetImageResource(Resource.Drawable.identity);
-                        }
-                        else if (post.Author.Badge.Best_answerer != null)
-                        {
-                            org.SetImageResource(Resource.Drawable.bestanswerer);
-                        }
-                    }
-                    else
-                    {
-                        org.Visibility = ViewStates.Gone;
-                    }
+                    org.Visibility = ViewStates.Gone;
                 }
-                txtBio.Text = post.Author.Bio;
-                var content = "<h1>" + post.Title + "</h1>" + post.Content;
-                postContent.Settings.CacheMode = CacheModes.CacheElseNetwork;
-                postContent.LoadRenderedContent(content);
-                txtTime.Text = "创建于：" + Convert.ToDateTime(post.PublishedTime).ToString("yyyy-MM-dd");
-                if (post.TitleImage != "")
-                {
-                    Picasso.With(this)
-                                .Load(post.TitleImage)
-                               .Into(titleImage);
-                }
-                else
-                {
-                    appbar.LayoutParameters = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, toolbar.Height);
-                    toolbarTitle.Text = title;
-                }
-                var avatar = post.Author.Avatar.Template.Replace("{id}", post.Author.Avatar.ID);
-                avatar = avatar.Replace("{size}", "l");
+            }
+            txtBio.Text = post.Author.Bio;
+            var content = "<h1>" + post.Title + "</h1>" + post.Content;
+            postContent.Settings.CacheMode = CacheModes.CacheElseNetwork;
+            postContent.LoadRenderedContent(content);
+            txtTime.Text = "创建于：" + Convert.ToDateTime(post.PublishedTime).ToString("yyyy-MM-dd");
+            if (post.TitleImage != "")
+            {
                 Picasso.With(this)
-                            .Load(avatar)
-                           .Transform(new CircleTransform())
-                           .Placeholder(Resource.Drawable.ic_placeholder_radius)
-                           .Error(Resource.Drawable.ic_placeholder_radius)
-                           .Into(imgAvatar);
-            });
+                            .Load(post.TitleImage)
+                           .Into(titleImage);
+            }
+            else
+            {
+                appbar.LayoutParameters = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, toolbar.Height);
+                toolbarTitle.Text = title;
+            }
+            var avatar = post.Author.Avatar.Template.Replace("{id}", post.Author.Avatar.ID);
+            avatar = avatar.Replace("{size}", "l");
+            try
+            {
+                await ImageService.Instance.LoadUrl(avatar)
+                      .Retry(3, 200)
+                      .DownSample(80, 80)
+                      .Transform(new CircleTransformation())
+                      .LoadingPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                      .ErrorPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                      .IntoAsync(imgAvatar);
+            }
+            catch (System.Exception)
+            {
+
+            }
         }
         public void GetContributedFail(string msg)
         {
@@ -199,14 +205,11 @@ namespace Zhuanlan.Droid.UI.Activitys
         }
         public void GetContributedSuccess(List<ContributedModel> lists)
         {
-            handler.Post(() =>
-            {
                 if (lists.Count > 0)
                 {
                     var data = lists[0];
                     txtColumnName.Text = data.SourceColumn.Name;
                 }
-            });
         }
 
         public void OnScrollChanged()

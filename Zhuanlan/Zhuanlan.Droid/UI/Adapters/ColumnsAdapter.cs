@@ -16,6 +16,10 @@ using Java.Lang;
 using Square.Picasso;
 using Zhuanlan.Droid.UI.Widgets;
 using Zhuanlan.Droid.UI.Activitys;
+using FFImageLoading.Views;
+using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Work;
 
 namespace Zhuanlan.Droid.UI.Adapters
 {
@@ -73,7 +77,7 @@ namespace Zhuanlan.Droid.UI.Adapters
             return base.GetItemViewType(position);
         }
 
-        public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
+        public override async void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
         {
             int viewType = viewHolder.ItemViewType;
 
@@ -90,7 +94,7 @@ namespace Zhuanlan.Droid.UI.Adapters
                     item.ItemView.Tag = model.Slug;
                     item.ItemView.SetOnClickListener(this);
                     item.title.Text = model.Name;
-                    
+
                     if (model.Description == null || model.Description == "")
                     {
                         item.description.Visibility = ViewStates.Gone;
@@ -105,12 +109,20 @@ namespace Zhuanlan.Droid.UI.Adapters
 
                     var avatar = model.Avatar.Template.Replace("{id}", model.Avatar.ID);
                     avatar = avatar.Replace("{size}", "l");
-                    Picasso.With(context)
-                                .Load(avatar)
-                               .Transform(new CircleTransform())
-                               .Placeholder(Resource.Drawable.ic_placeholder_radius)
-                               .Error(Resource.Drawable.ic_placeholder_radius)
-                               .Into(item.avatar);
+                    try
+                    {
+                        await ImageService.Instance.LoadUrl(avatar)
+                              .Retry(3, 200)
+                              .DownSample(80, 80)
+                              .Transform(new CircleTransformation())
+                              .LoadingPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                              .ErrorPlaceholder("ic_placeholder.png", ImageSource.ApplicationBundle)
+                              .IntoAsync(item.avatar);
+                    }
+                    catch (System.Exception)
+                    {
+
+                    }
                     break;
             }
         }
@@ -131,7 +143,7 @@ namespace Zhuanlan.Droid.UI.Adapters
         }
         public class ItemViewHolder : RecyclerView.ViewHolder
         {
-            public ImageView avatar { get; set; }
+            public ImageViewAsync avatar { get; set; }
             public TextView title { get; set; }
             public TextView description { get; set; }
             public TextView followersCount { get; set; }
@@ -139,7 +151,7 @@ namespace Zhuanlan.Droid.UI.Adapters
             public ItemViewHolder(View view)
                 : base(view)
             {
-                avatar = view.FindViewById<ImageView>(Resource.Id.llAvatar);
+                avatar = view.FindViewById<ImageViewAsync>(Resource.Id.llAvatar);
                 title = view.FindViewById<TextView>(Resource.Id.txtTitle);
                 description = view.FindViewById<TextView>(Resource.Id.txtDescription);
                 followersCount = view.FindViewById<TextView>(Resource.Id.txtFollowersCount);
